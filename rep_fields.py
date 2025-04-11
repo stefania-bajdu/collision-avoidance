@@ -128,9 +128,6 @@ class IMPC:
         xref_param = solver.parameter(n, self.Npred)
         psi_ref_param = solver.parameter(1, 1)
 
-        eps_max = 10*np.pi/180
-        T_max = 10
-
         # Set constraints
         solver.subject_to(x[:, 0] == xinit)
         for k in range(self.Npred):
@@ -235,8 +232,8 @@ class IMPC:
         self.solver.set_value(self.xinit, self.state_xi[id][:, i])
         self.solver.set_value(self.psi_ref_param, self.psi_ref[0][i, 0])
 
-        print(f"[ITERATION {i}]\n")
-        file.write(f"[ITERATION {i}]\n")
+        # print(f"[ITERATION {i}]\n")
+        # file.write(f"[ITERATION {i}]\n")
 
         # self.repulsion_forces_var = repulsion_forces
 
@@ -318,7 +315,7 @@ if __name__ == "__main__":
 
     controller = IMPC(rref, pos_init)
     controller.run()
-
+    
     plot_positions(controller.t, controller.state_xi[0], controller.pos_ref[0], id=0)
     # plot_positions(controller.t, controller.state_xi[1], controller.pos_ref[0], id=1)
 

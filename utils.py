@@ -142,7 +142,7 @@ def plot_traj_animated(t, state_xi, cluster_refs):
     ax.set_zlabel('Z (m)')
     ax.set_title('Robot Trajectories')
     ax.grid(True)
-
+    
     # colors = ['r', 'g', 'b', 'm']
     colors = plt.cm.viridis(np.linspace(0, 1, len(state_xi)))
 
@@ -221,6 +221,31 @@ def plot_agent_distance(t, state_xi_1, state_xi_2, d0=0.25, ids=[0, 1]):
     plt.title("Evolution of Distance Between Agents")
     plt.legend()
     plt.grid()
+    
+    
+def plot_all_agent_distances(t, state_xi,d0=0.3):
+    """
+    Plot distances between all pairs of agents over time.
+
+    Parameters:
+    - t: time vector (1D array)
+    - state_xi: dict of agent states, each entry contains (6, T) arrays
+    """
+    Na = len(state_xi)
+    plt.figure(figsize=(8, 5))
+
+    for i in range(Na):
+        for j in range(i + 1, Na):
+            dist = np.linalg.norm(state_xi[i][0:3, :] - state_xi[j][0:3, :], axis=0)
+            plt.plot(t, dist, label=f"")
+            
+    plt.axhline(y=d0, color='r', linestyle='--', label=f"Safety Threshold {d0}m")
+    plt.title("Distances Between Agents Over Time")
+    plt.xlabel("Time [s]")
+    plt.ylabel("Distance [m]")
+    # plt.legend()
+    plt.grid(True)
+    # plt.tight_layout()
 
 
 def plot_static_drones(Adjll, state_xi, cnt=0):

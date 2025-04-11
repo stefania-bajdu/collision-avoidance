@@ -42,7 +42,7 @@ class IMPC:
         self.pos_ref[2] = np.tile([3, 3, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[2] = np.zeros(len(self.t))
 
-        self.pos_ref[3] = np.tile([3, 2, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[3] = np.tile([2, 2, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[3] = np.zeros(len(self.t))
 
         self.initialize_parameters()  # add Q and R here?
@@ -121,6 +121,7 @@ class IMPC:
         x = solver.variable(n, self.Npred + 1)
         v = solver.variable(du, self.Npred)
         phi_i = solver.variable(self.Na, 1)
+        # phi_i = solver.variable(1, 1)
 
         xinit = solver.parameter(n, 1)
         vinit = solver.parameter(du, 1)
@@ -130,11 +131,13 @@ class IMPC:
         Acoll = solver.parameter(self.Na, 3)
         bcoll = solver.parameter(self.Na, 1)
         coll_step = solver.parameter(1, 1)
+        # coll_step = solver.parameter(self.Na, 1)
         dij_at_coll = solver.parameter(self.Na, self.Na)
         # I think i have to make this a diagonal matrix with the di and the respective j at the collision step
+        
 
-        self.r_min = 0.3
-        self.eta1, self.eta2 = 10, 100
+        self.r_min = 0.7
+        self.eta1, self.eta2 = 0, 100
 
         self.THETA = np.eye(3)
         self.THETA_1 = np.linalg.inv(self.THETA)
@@ -145,8 +148,16 @@ class IMPC:
         for k in range(self.Npred):
             solver.subject_to(x[:, k+1] == self.A_d @ x[:, k] + self.B_d @ v[:, k])
             solver.subject_to(cas.mtimes(self.Vc['A_vc'], v[:, k]) <= self.Vc['b_vc'])
-
-            solver.subject_to(cas.mtimes(Acoll, x[:3, coll_step + 1]) + cas.mtimes(dij_at_coll, phi_i) / 2 <= bcoll)
+            
+            # x_av = []
+            # for i in range(self.Na):
+            #     x_av = cas.hcat([x_av, x[:3, coll_step[i] + 1]])
+                
+            # V = cas.mtimes(Acoll, x_av) + cas.mtimes(dij_at_coll, phi_i) / 2
+            # D = cas.diag(V)
+            solver.subject_to(cas.mtimes(Acoll, x[:3, coll_step+1]) + cas.mtimes(dij_at_coll, phi_i) / 2 <= bcoll)
+            # solver.subject_to(D <= bcoll)
+            # solver.subject_to(cas.diag(cas.mtimes(Acoll, cas.hcat([x[:3, coll_step + 1]])) + cas.mtimes(dij_at_coll, phi_i) / 2) <= bcoll)
 
         # Set objective
         objective = 0
@@ -154,6 +165,9 @@ class IMPC:
             state_error = x[:, k] - xref_param[:, k]
             control_effort = v[:, k] - (v[:, k-1] if k > 0 else vinit)
             objective += cas.mtimes([state_error.T, self.Q, state_error]) + cas.mtimes([control_effort.T, self.R, control_effort])
+            
+        # for i in range(self.Na):
+        #     objective += cas.mtimes(self.eta2, phi_i[i]**2) - cas.mtimes(self.eta1, phi_i[i])
 
         solver.minimize(objective)
         opts = {"ipopt.print_level": 0, "print_time": False, "ipopt.sb": "yes"}
@@ -197,7 +211,7 @@ class IMPC:
         bcoll = np.zeros((self.Na, 1))
         dij_colls = np.zeros((self.Na, self.Na))
         collision_steps = {j: -1 for j in range(self.Na)}
-
+        
         if i >= 1:
             W_il = []
             new_objective = self.objective
@@ -212,17 +226,15 @@ class IMPC:
                             collision_steps[j] = k
                             W_il.append(j)
                             file.write(f"[ITERATION {i}] Collision detected between agent {id} and agent {j} at prediction step {k} and sim time {i+k}\n")
-
+            
             for j in W_il:
                 diff = self.predicted_evolution[id][:3, collision_steps[j]] - self.predicted_evolution[j][:3, collision_steps[j]]
                 dij_l = self.THETA_1 * diff
                 dij_l = np.linalg.norm(dij_l)
                 dij_colls[j, j] = dij_l
                 A = -(self.THETA_2 @ diff)
-                # A = (self.THETA_2 @ diff)
                 bcoll[j] = A @ self.predicted_evolution[id][:3, collision_steps[j]] - (self.r_min - dij_l) * dij_l / 2
                 Acoll[j] = A.reshape(1, -1)
-                # self.solver.subject_to(cas.mtimes(Acoll, self.x[:3, collision_steps[j] + 1]) + cas.mtimes(dij_l, self.phi_i[j]) / 2 <= bcoll)
                 new_objective = new_objective + self.eta2 * self.phi_i[j]**2 - self.eta1 * self.phi_i[j]
 
             self.solver.minimize(new_objective)
@@ -230,6 +242,12 @@ class IMPC:
         self.solver.set_value(self.Acoll, Acoll)
         self.solver.set_value(self.bcoll, bcoll)
         self.solver.set_value(self.dij_at_coll, dij_colls)
+        
+        # self.solver.set_value(self.coll_step, list(collision_steps.values()))
+        # ok = 0
+        # if len(collision_steps) >= 1:
+        #     self.solver.set_value(self.coll_step, min(collision_steps.values()))
+        #     ok = 1
         ok = 0
         for item in collision_steps:
             if item != -1:
@@ -252,6 +270,9 @@ class IMPC:
 
         sol = self.solver.solve()
         vopt = sol.value(self.v)
+        phi_i = sol.value(self.phi_i)
+        
+        print(phi_i)
 
         self.predicted_evolution[id] = sol.value(self.x)
 
@@ -311,7 +332,7 @@ if __name__ == "__main__":
     # plot_positions(controller.t, controller.state_xi[0], controller.pos_ref[0], id=0)
     # plot_positions(controller.t, controller.state_xi[1], controller.pos_ref[1], id=1)
 
-    plot_agent_distance(controller.t, controller.state_xi[0], controller.state_xi[1], d0=controller.r_min)
+    plot_all_agent_distances(controller.t, controller.state_xi, d0=controller.r_min)
     # plot_velocities(controller.t, controller.state_xi[0], controller.pos_ref[0][:, 3:6], id=0)
     # plot_angles(controller.t, controller.state_eta[0], controller.angle_refs[0], 0.25, id=0)
     # plot_real_u(controller.t, controller.thrusts[0], controller.angle_refs[0], id=0)

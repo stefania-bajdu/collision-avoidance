@@ -38,13 +38,13 @@ class CFT:
             2: copy.deepcopy(rref_base),
         }
 
-        rrefs[1]["trajectory"][:, 0] += 1
-        rrefs[1]["trajectory"][:, 1] += 1
-        rrefs[1]["trajectory"][:, 2] += 1
+        rrefs[1]["trajectory"][:, 0] += 0.6
+        rrefs[1]["trajectory"][:, 1] += 0.6
+        rrefs[1]["trajectory"][:, 2] += 0.6
 
-        rrefs[2]["trajectory"][:, 0] -= 1
-        rrefs[2]["trajectory"][:, 1] -= 1
-        rrefs[2]["trajectory"][:, 2] += 1
+        rrefs[2]["trajectory"][:, 0] -= 0.6
+        rrefs[2]["trajectory"][:, 1] -= 0.6
+        rrefs[2]["trajectory"][:, 2] += 0.6
 
         return rrefs
 
@@ -177,6 +177,8 @@ if __name__ == "__main__":
     cft.reconstruct_states()
 
     # cft.plot_state_evolution_xyz(cluster_ids=[0])
+    
+    plot_all_agent_distances(cft.controllers[0].t, cft.state_xi_reconstructed, d0=0.3)
 
     cft.visualize_trajectory()
 
