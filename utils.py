@@ -187,7 +187,7 @@ def plot_traj_animated(t, state_xi, cluster_refs):
     skip_frames = 1
 
     for t_idx in range(len(t)):
-        print(f'Time step: {t_idx + 1} / {len(t)}')
+        # print(f'Time step: {t_idx + 1} / {len(t)}')
         start_idx = max(0, t_idx - trace_length + 1)
 
         for i in range(Na):
@@ -223,27 +223,21 @@ def plot_agent_distance(t, state_xi_1, state_xi_2, d0=0.25, ids=[0, 1]):
     plt.grid()
     
     
-def plot_all_agent_distances(t, state_xi,d0=0.3):
-    """
-    Plot distances between all pairs of agents over time.
-
-    Parameters:
-    - t: time vector (1D array)
-    - state_xi: dict of agent states, each entry contains (6, T) arrays
-    """
+def plot_all_agent_distances(t, state_xi, d0=0.3):
+    """Plot distances between all pairs of agents over time."""
     Na = len(state_xi)
     plt.figure(figsize=(8, 5))
 
     for i in range(Na):
         for j in range(i + 1, Na):
             dist = np.linalg.norm(state_xi[i][0:3, :] - state_xi[j][0:3, :], axis=0)
-            plt.plot(t, dist, label=f"")
+            plt.plot(t, dist, label=f"{i}-{j}")
             
-    plt.axhline(y=d0, color='r', linestyle='--', label=f"Safety Threshold {d0}m")
+    plt.axhline(y=d0, color='r', linestyle='--', label=f"d0")
     plt.title("Distances Between Agents Over Time")
     plt.xlabel("Time [s]")
     plt.ylabel("Distance [m]")
-    # plt.legend()
+    plt.legend()
     plt.grid(True)
     # plt.tight_layout()
 
