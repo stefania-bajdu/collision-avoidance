@@ -148,7 +148,7 @@ def plot_traj_animated(t, state_xi, cluster_refs):
 
     Na = len(state_xi)
     num_targets = len(cluster_refs)
-    trace_length = 40
+    trace_length = 12
 
     x_min = min(np.min(state_xi[i][0, :]) for i in range(Na)) - 0.1
     x_max = max(np.max(state_xi[i][0, :]) for i in range(Na)) + 0.1

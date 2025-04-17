@@ -29,20 +29,20 @@ class IMPC:
         self.Vc['A_vc'] = np.round(data_Upos['A'][0, 0], 5)
         self.Vc['b_vc'] = np.round(data_Upos['b'][0, 0], 5)
 
-        self.Tfin = 9.3
+        self.Tfin = 30
         self.Ts = 0.1
         self.t = np.arange(0, self.Tfin, self.Ts)
 
-        self.pos_ref[0] = np.tile([4, 1, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[0] = np.tile([4, 0.99, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[0] = np.zeros(len(self.t))
 
-        self.pos_ref[1] = np.tile([1, 1, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[1] = np.tile([1, 1.01, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[1] = np.zeros(len(self.t))
 
-        self.pos_ref[2] = np.tile([4, 4, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[2] = np.tile([4, 3.99, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[2] = np.zeros(len(self.t))
 
-        self.pos_ref[3] = np.tile([2, 2, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[3] = np.tile([2, 2.01, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[3] = np.zeros(len(self.t))
 
         self.initialize_parameters()  # add Q and R here?
@@ -54,7 +54,7 @@ class IMPC:
         self.m = 28e-3
         self.I_BF = np.diag([1.4, 1.4, 2.2]) * 1e-5
 
-        self.Npred = 15
+        self.Npred = 4
 
         self.A = np.block([[np.zeros((3, 3)), np.eye(3)], [np.zeros((3, 6))]])
         self.B = np.block([[np.zeros((3, 3))], [np.eye(3)]])
@@ -134,7 +134,9 @@ class IMPC:
         # I think i have to make this a diagonal matrix with the di and the respective j at the collision step
 
         self.r_min = 0.35
-        self.eta1, self.eta2 = 0, 5000
+        # self.eta1, self.eta2 = 0, 5000
+        self.eta1 = solver.parameter(1, 1)
+        self.eta2 = solver.parameter(1, 1)
 
         self.THETA = 2.5 * np.eye(3)
         self.THETA_1 = np.linalg.inv(self.THETA)
@@ -186,10 +188,11 @@ class IMPC:
 
         for i in range(len(self.t) - 1):
             print(f"[ITERATION {i}]\n")
+            tic = time.time()
             for id in range(self.Na):
                 self.compute_control(i, id=id)
                 self.update_states(i, id=id)
-            file.write(f"\n")
+            file.write(f"[TIME] {time.time() - tic}\n")
 
         elapsed_time = time.time() - start_time
 
@@ -202,6 +205,8 @@ class IMPC:
         bcoll = np.zeros((self.Na, 1))
         dij_colls = np.zeros((self.Na, self.Na))
         collision_steps = {j: -1 for j in range(self.Na)}
+        
+        eta1, eta2 = 0, 0
 
         if i >= 1:
             W_il = []
@@ -217,6 +222,7 @@ class IMPC:
                             collision_steps[j] = k
                             W_il.append(j)
                             file.write(f"[ITERATION {i}] Collision detected between agent {id} and agent {j} dist = {dist} at prediction step {k} and sim time {i+k}\n")
+                            eta1, eta2 = 0, 1000
                             break
 
             for j in W_il:
@@ -234,6 +240,9 @@ class IMPC:
         self.solver.set_value(self.Acoll, Acoll)
         self.solver.set_value(self.bcoll, bcoll)
         self.solver.set_value(self.dij_at_coll, dij_colls)
+        
+        self.solver.set_value(self.eta1, eta1)
+        self.solver.set_value(self.eta2, eta2)
 
         valid_points = [l for l in collision_steps.values() if l >= 0]
         if valid_points:
