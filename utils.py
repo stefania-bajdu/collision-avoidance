@@ -181,7 +181,7 @@ def plot_traj_animated(t, state_xi, cluster_refs):
     for i in range(num_targets):
         ref_markers[i], = ax.plot([], [], [], 'ro', markersize=4, label='Ref')
 
-    # ax.legend()
+    ax.legend()
 
     print("Starting animation...")
     skip_frames = 1

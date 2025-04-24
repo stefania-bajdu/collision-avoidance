@@ -33,16 +33,16 @@ class IMPC:
         self.Ts = 0.1
         self.t = np.arange(0, self.Tfin, self.Ts)
 
-        self.pos_ref[0] = np.tile([4, 0.99, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[0] = np.tile([3.99, 0.95, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[0] = np.zeros(len(self.t))
 
-        self.pos_ref[1] = np.tile([1, 1.01, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[1] = np.tile([1.01, 1.05, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[1] = np.zeros(len(self.t))
 
-        self.pos_ref[2] = np.tile([4, 3.99, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[2] = np.tile([3.99, 3.95, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[2] = np.zeros(len(self.t))
 
-        self.pos_ref[3] = np.tile([2, 2.01, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[3] = np.tile([2.01, 2.05, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[3] = np.zeros(len(self.t))
 
         self.initialize_parameters()  # add Q and R here?
@@ -151,8 +151,6 @@ class IMPC:
             solver.subject_to(cas.mtimes(Acoll, x[:3, coll_step + 1]) + cas.mtimes(dij_at_coll, phi_i) / 2 <= bcoll)
 
             # solver.subject_to(phi_i <= cas.MX.zeros(self.Na, 1))
-
-        # Set objective
         objective = 0
         for k in range(self.Npred):
             state_error = x[:, k] - xref_param[:, k]
@@ -173,9 +171,7 @@ class IMPC:
         self.vinit = vinit
         self.xref_param = xref_param
         self.psi_ref_param = psi_ref_param
-
         self.objective = objective
-
         self.phi_i = phi_i
         self.Acoll = Acoll
         self.bcoll = bcoll
@@ -205,12 +201,11 @@ class IMPC:
         bcoll = np.zeros((self.Na, 1))
         dij_colls = np.zeros((self.Na, self.Na))
         collision_steps = {j: -1 for j in range(self.Na)}
-        
+
         eta1, eta2 = 0, 0
 
         if i >= 1:
             W_il = []
-            # new_objective = self.objective
             for j in range(self.Na):
                 if id != j:
                     for k in range(self.Npred - 1):
@@ -233,14 +228,11 @@ class IMPC:
                 A = -(self.THETA_2 @ diff)
                 bcoll[j] = A @ self.predicted_evolution[id][:3, collision_steps[j]] - (self.r_min - dij_l) * dij_l / 2
                 Acoll[j] = A.reshape(1, -1)
-                # new_objective = new_objective + self.eta2 * self.phi_i[j]**2 - self.eta1 * self.phi_i[j]
-
-            # self.solver.minimize(new_objective)
 
         self.solver.set_value(self.Acoll, Acoll)
         self.solver.set_value(self.bcoll, bcoll)
         self.solver.set_value(self.dij_at_coll, dij_colls)
-        
+
         self.solver.set_value(self.eta1, eta1)
         self.solver.set_value(self.eta2, eta2)
 
@@ -252,10 +244,10 @@ class IMPC:
 
         if i + self.Npred <= len(self.t):
             desired_pos = self.pos_ref[id][i:i+self.Npred, 0:3].T
-            ref = np.vstack([desired_pos, self.pos_ref[0][i:i+self.Npred, 3:6].T])
+            ref = np.vstack([desired_pos, self.pos_ref[id][i:i+self.Npred, 3:6].T])
         else:
             desired_pos = self.pos_ref[id][-self.Npred:, 0:3].T
-            ref = np.vstack([desired_pos, self.pos_ref[0][-self.Npred:, 3:6].T])
+            ref = np.vstack([desired_pos, self.pos_ref[id][-self.Npred:, 3:6].T])
 
         self.solver.set_value(self.xref_param, ref)
         self.solver.set_value(self.xinit, self.state_xi[id][:, i])
@@ -263,9 +255,7 @@ class IMPC:
 
         sol = self.solver.solve()
         vopt = sol.value(self.v)
-        phi_i = sol.value(self.phi_i)
-
-        # print(phi_i)
+        # phi_i = sol.value(self.phi_i)
 
         self.predicted_evolution[id] = sol.value(self.x)
 
