@@ -31,19 +31,10 @@ class IMPC:
         self.Ts = 0.1
         self.t = np.arange(0, self.Tfin, self.Ts)
 
-        self.pos_ref[0] = np.tile([3.99, 0.95, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[0] = np.tile([4.0, 1.0, 0, 0, 0, 0], (len(self.t), 1))
         self.psi_ref[0] = np.zeros(len(self.t))
 
-        self.pos_ref[1] = np.tile([1.01, 1.05, 0, 0, 0, 0], (len(self.t), 1))
-        self.psi_ref[1] = np.zeros(len(self.t))
-
-        self.pos_ref[2] = np.tile([3.99, 3.95, 0, 0, 0, 0], (len(self.t), 1))
-        self.psi_ref[2] = np.zeros(len(self.t))
-
-        self.pos_ref[3] = np.tile([2.01, 2.05, 0, 0, 0, 0], (len(self.t), 1))
-        self.psi_ref[3] = np.zeros(len(self.t))
-
-        self.initialize_parameters()  # add Q and R here?
+        self.initialize_parameters()
         self.initialize_states(pos_init)
         self.setup_solver()
 
@@ -127,41 +118,33 @@ class IMPC:
 
         solver = cas.Opti()
         x = solver.variable(n, self.Npred + 1)
-        P_i = solver.variable(3, self.Npred + 1)
+        P_i = solver.variable(3, self.n_ctrl_pts)
         v = solver.variable(du, self.Npred)
-        phi_i = solver.variable(self.Na, 1)
 
-        xinit = solver.parameter(n, 1)
+        # xinit = solver.parameter(n, 1)
         vinit = solver.parameter(du, 1)
         xref_param = solver.parameter(n, self.Npred)
         psi_ref_param = solver.parameter(1, 1)
 
-        self.eta1 = solver.parameter(1, 1)
-        self.eta2 = solver.parameter(1, 1)
-
-        Acoll = solver.parameter(self.Na, 3)
-        bcoll = solver.parameter(self.Na, 1)
-        coll_step = solver.parameter(1, 1)
-        dij_at_coll = solver.parameter(self.Na, self.Na)
-        # I think i have to make this a diagonal matrix with the di and the respective j at the collision step
-
         # Set constraints
-        solver.subject_to(x[:, 0] == xinit)
+        # solver.subject_to(x[:, 0] == xinit)
         for k in range(self.Npred):
-            solver.subject_to(x[:, k+1] == self.A_d @ x[:, k] + self.B_d @ v[:, k])
+            # solver.subject_to(x[:, k+1] == self.A_d @ x[:, k] + self.B_d @ v[:, k])
             solver.subject_to(cas.mtimes(self.Vc['A_vc'], v[:, k]) <= self.Vc['b_vc'])
 
-            solver.subject_to(cas.mtimes(Acoll, x[:3, coll_step + 1]) + cas.mtimes(dij_at_coll, phi_i) / 2 <= bcoll)
+            solver.subject_to(x[0:3, k] == P_i * self.basis_funcs[k])
+            solver.subject_to(x[3:6, k] == self.A_d @ x[:, k] + self.B_d @ v[:, k])
+            solver.subject_to(v[:, k] == self.A_d @ x[:, k] + self.B_d @ v[:, k])
+
+            # solver.subject_to(cas.mtimes(Acoll, x[:3, coll_step + 1]) + cas.mtimes(dij_at_coll, phi_i) / 2 <= bcoll)
             # solver.subject_to(phi_i <= cas.MX.zeros(self.Na, 1))
 
         objective = 0
         for k in range(self.Npred):
             state_error = x[:, k] - xref_param[:, k]
-            control_effort = v[:, k] - (v[:, k-1] if k > 0 else vinit)
+            # control_effort = v[:, k] - (v[:, k-1] if k > 0 else vinit)
+            control_effort = v[:, k]
             objective += cas.mtimes([state_error.T, self.Q[:, :], state_error]) + cas.mtimes([control_effort.T, self.R, control_effort])
-
-        for i in range(self.Na):
-            objective += cas.mtimes(self.eta2, phi_i[i]**2) - cas.mtimes(self.eta1, phi_i[i])
 
         solver.minimize(objective)
         opts = {"ipopt.print_level": 0, "print_time": False, "ipopt.sb": "yes"}
@@ -170,16 +153,11 @@ class IMPC:
         self.x = x
         self.v = v
         self.solver = solver
-        self.xinit = xinit
+        # self.xinit = xinit
         self.vinit = vinit
         self.xref_param = xref_param
         self.psi_ref_param = psi_ref_param
         self.objective = objective
-        self.phi_i = phi_i
-        self.Acoll = Acoll
-        self.bcoll = bcoll
-        self.coll_step = coll_step
-        self.dij_at_coll = dij_at_coll
 
     def run(self):
         self.solver.set_value(self.vinit, np.zeros(3))
@@ -200,50 +178,6 @@ class IMPC:
         print(f"One control loop lasts {elapsed_time / len(self.t)} and is {comment} than the sample time {self.Ts}.")
 
     def compute_control(self, i, id=0):
-        Acoll = np.zeros((self.Na, 3))
-        bcoll = np.zeros((self.Na, 1))
-        dij_colls = np.zeros((self.Na, self.Na))
-        collision_steps = {j: -1 for j in range(self.Na)}
-
-        eta1, eta2 = 0, 0
-
-        if i >= 1:
-            W_il = []
-            for j in range(self.Na):
-                if id != j:
-                    for k in range(self.Npred - 1):
-                        pos_id = self.predicted_evolution[id][:3, k+1]
-                        pos_j = self.predicted_evolution[j][:3, k+1]
-                        dist = np.linalg.norm(pos_id - pos_j)
-
-                        if dist < self.r_min:
-                            collision_steps[j] = k
-                            W_il.append(j)
-                            file.write(f"[ITERATION {i}] Collision detected between agent {id} and agent {j} dist = {dist} at prediction step {k} and sim time {i+k}\n")
-                            eta1, eta2 = 0, 1000
-                            break
-
-            for j in W_il:
-                diff = self.predicted_evolution[id][:3, collision_steps[j]] - self.predicted_evolution[j][:3, collision_steps[j]]
-                dij_l = self.THETA_1 * diff
-                dij_l = np.linalg.norm(dij_l)
-                dij_colls[j, j] = dij_l
-                A = -(self.THETA_2 @ diff)
-                bcoll[j] = A @ self.predicted_evolution[id][:3, collision_steps[j]] - (self.r_min - dij_l) * dij_l / 2
-                Acoll[j] = A.reshape(1, -1)
-
-        self.solver.set_value(self.Acoll, Acoll)
-        self.solver.set_value(self.bcoll, bcoll)
-        self.solver.set_value(self.dij_at_coll, dij_colls)
-
-        self.solver.set_value(self.eta1, eta1)
-        self.solver.set_value(self.eta2, eta2)
-
-        valid_points = [l for l in collision_steps.values() if l >= 0]
-        if valid_points:
-            self.solver.set_value(self.coll_step, min(valid_points))
-        else:
-            self.solver.set_value(self.coll_step, 0)
 
         if i + self.Npred <= len(self.t):
             desired_pos = self.pos_ref[id][i:i+self.Npred, 0:3].T
@@ -258,7 +192,6 @@ class IMPC:
 
         sol = self.solver.solve()
         vopt = sol.value(self.v)
-        # phi_i = sol.value(self.phi_i)
 
         self.predicted_evolution[id] = sol.value(self.x)
 
@@ -300,22 +233,24 @@ if __name__ == "__main__":
 
     # pos_init = np.array([np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([-1, 0, 0]), np.array([0, -1, 0])])
     # pos_init = np.array([np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([-1, 0, 0])])
-    pos_init = np.array([np.array([1, 1, 0]), np.array([4, 1, 0]), np.array([2, 2, 0]), np.array([4, 4, 0])])
-    # pos_init = np.array([np.array([2, 1, 0])])
+    # pos_init = np.array([np.array([1, 1, 0]), np.array([4, 1, 0]), np.array([2, 2, 0]), np.array([4, 4, 0])])
+    pos_init = np.array([np.array([1, 1, 0])])
 
     controller = IMPC(pos_init)
     controller.run()
 
-    # plot_positions(controller.t, controller.state_xi[0], controller.pos_ref[0], id=0)
+    plot_positions(controller.t, controller.state_xi[0], controller.pos_ref[0], id=0)
+    plot_velocities(controller.t, controller.state_xi[0], controller.pos_ref[0][:, 3:6], id=0)
+
     # plot_positions(controller.t, controller.state_xi[1], controller.pos_ref[1], id=1)
 
     plot_all_agent_distances(controller.t, controller.state_xi, d0=controller.r_min)
     # plot_velocities(controller.t, controller.state_xi[0], controller.pos_ref[0][:, 3:6], id=0)
     # plot_angles(controller.t, controller.state_eta[0], controller.angle_refs[0], 0.25, id=0)
     plot_real_u(controller.t, controller.thrusts[0], controller.angle_refs[0], id=0)
-    plot_real_u(controller.t, controller.thrusts[1], controller.angle_refs[1], id=1)
-    plot_real_u(controller.t, controller.thrusts[2], controller.angle_refs[2], id=2)
-    plot_real_u(controller.t, controller.thrusts[3], controller.angle_refs[3], id=3)
+    # plot_real_u(controller.t, controller.thrusts[1], controller.angle_refs[1], id=1)
+    # plot_real_u(controller.t, controller.thrusts[2], controller.angle_refs[2], id=2)
+    # plot_real_u(controller.t, controller.thrusts[3], controller.angle_refs[3], id=3)
 
     # plot_formation_error(controller.t, controller.formation_error, controller.Na)
 

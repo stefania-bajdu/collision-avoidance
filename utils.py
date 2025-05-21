@@ -142,7 +142,7 @@ def plot_traj_animated(t, state_xi, cluster_refs):
     ax.set_zlabel('Z (m)')
     ax.set_title('Robot Trajectories')
     ax.grid(True)
-    
+
     # colors = ['r', 'g', 'b', 'm']
     colors = plt.cm.viridis(np.linspace(0, 1, len(state_xi)))
 
@@ -164,7 +164,7 @@ def plot_traj_animated(t, state_xi, cluster_refs):
     ax.set_zlim([z_min, z_max])
 
     for i in range(num_targets):
-        ax.plot(cluster_refs[i][:, 0], cluster_refs[i][:, 1], cluster_refs[i][:, 2], 'k--', label='Reference')
+        ax.plot(cluster_refs[i][:, 0], cluster_refs[i][:, 1], cluster_refs[i][:, 2], 'k--', label='')
 
     # Initialize trajectory lines and scatter points
     trajectory_lines = []
@@ -179,7 +179,7 @@ def plot_traj_animated(t, state_xi, cluster_refs):
     # Reference trajectory marker
     ref_markers = {}
     for i in range(num_targets):
-        ref_markers[i], = ax.plot([], [], [], 'ro', markersize=4, label='Ref')
+        ref_markers[i], = ax.plot([], [], [], 'ro', markersize=4, label='')
 
     ax.legend()
 
@@ -209,8 +209,8 @@ def plot_traj_animated(t, state_xi, cluster_refs):
 
 
 def plot_agent_distance(t, state_xi_1, state_xi_2, d0=0.25, ids=[0, 1]):
-    pos1 = state_xi_1[0:3, :]  
-    pos2 = state_xi_2[0:3, :]  
+    pos1 = state_xi_1[0:3, :]
+    pos2 = state_xi_2[0:3, :]
     distances = np.linalg.norm(pos1 - pos2, axis=0)
 
     plt.figure(figsize=(8, 5))
@@ -221,8 +221,8 @@ def plot_agent_distance(t, state_xi_1, state_xi_2, d0=0.25, ids=[0, 1]):
     plt.title("Evolution of Distance Between Agents")
     plt.legend()
     plt.grid()
-    
-    
+
+
 def plot_all_agent_distances(t, state_xi, d0=0.3):
     """Plot distances between all pairs of agents over time."""
     Na = len(state_xi)
@@ -232,7 +232,7 @@ def plot_all_agent_distances(t, state_xi, d0=0.3):
         for j in range(i + 1, Na):
             dist = np.linalg.norm(state_xi[i][0:3, :] - state_xi[j][0:3, :], axis=0)
             plt.plot(t, dist, label=f"{i}-{j}")
-            
+
     plt.axhline(y=d0, color='r', linestyle='--', label=f"d0")
     plt.title("Distances Between Agents Over Time")
     plt.xlabel("Time [s]")

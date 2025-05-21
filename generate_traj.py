@@ -188,7 +188,7 @@ def get_ref_setpoints(psi, Tsim, dt, version=1):
     return ref
 
 
-# rref = get_ref(0, 30, 0.1)
+rref = get_ref(0, 30, 0.1)
 
 # # rref2 = copy.deepcopy(rref)
 # # rref2["trajectory"] = np.copy(rref["trajectory"])
