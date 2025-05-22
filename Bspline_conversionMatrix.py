@@ -25,7 +25,7 @@ def bsplineConversionMatrices(num_of_controlPoints: int, k: int, knot):
             if knot[i + d - r] == knot[i + 1]:
                 M[r][i][i + 1] = 0
             else:
-                M[r][i][i + 1] = -(d - r - 1) / (knot[i + d - r + 1 - 1] - knot[i + 1])
+                M[r][i][i + 1] = -(d - r - 1) / (knot[i + d - r] - knot[i + 1])
         tmp = tmp * np.matrix(M[r])
         M[r] = tmp
     return M
