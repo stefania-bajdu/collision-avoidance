@@ -1,7 +1,7 @@
 import numpy as np
 import casadi as cas
 import time
-from utils import *
+from utils_2d import *
 from att_utils import *
 from generate_traj import *
 from Bspline_conversionMatrix import *
@@ -26,7 +26,7 @@ class IMPC:
         self.Vc['A_vc'] = np.round(data_Upos['A'][0, 0], 5)
         self.Vc['b_vc'] = np.round(data_Upos['b'][0, 0], 5)
 
-        self.Tfin = 30
+        self.Tfin = 40
         self.Ts = 0.1
         self.t = np.arange(0, self.Tfin, self.Ts)
 
@@ -34,10 +34,10 @@ class IMPC:
         # self.pos_ref[0] = temp["trajectory"]
         # self.pos_ref[1] = self.pos_ref[0]
 
-        self.pos_ref[0] = np.tile([3.0, 3.0, 0, 0, 0, 0], (len(self.t), 1))
-        self.pos_ref[1] = np.tile([1.0, 3.0, 0, 0, 0, 0], (len(self.t), 1))
-        self.pos_ref[2] = np.tile([1.0, 1.0, 0, 0, 0, 0], (len(self.t), 1))
-        self.pos_ref[3] = np.tile([3.0, 1.0, 0, 0, 0, 0], (len(self.t), 1))
+        self.pos_ref[0] = np.tile([3.0, 3.0, 0, 0], (len(self.t), 1))
+        self.pos_ref[1] = np.tile([1.0, 3.0, 0, 0], (len(self.t), 1))
+        self.pos_ref[2] = np.tile([1.0, 1.0, 0, 0], (len(self.t), 1))
+        self.pos_ref[3] = np.tile([3.0, 1.0, 0, 0], (len(self.t), 1))
 
         self.psi_ref[0] = np.zeros(len(self.t))
         self.psi_ref[1] = np.zeros(len(self.t))
@@ -55,71 +55,31 @@ class IMPC:
 
         self.Npred = 15
 
-        self.A = np.block([[np.zeros((3, 3)), np.eye(3)], [np.zeros((3, 6))]])
-        self.B = np.block([[np.zeros((3, 3))], [np.eye(3)]])
-        self.A_d = np.eye(6) + self.Ts * self.A
+        self.A = np.block([[np.zeros((2, 2)), np.eye(2)], [np.zeros((2, 4))]])
+        self.B = np.block([[np.zeros((2, 2))], [np.eye(2)]])
+        self.A_d = np.eye(4) + self.Ts * self.A
         self.B_d = self.B * self.Ts
 
-        self.Q = np.diag([1, 1, 1, 1, 1, 1])
-        self.R = np.diag([2.5, 2.5, 2.5])
+        self.Q = np.diag([1, 1, 1, 1])
+        self.R = np.diag([1, 1])
 
-        self.r_min = 0.35
-        self.THETA = 2.5 * np.eye(3)
+        self.r_min = 0.4
+        self.THETA = 2 * np.eye(2)
         self.THETA_1 = np.linalg.inv(self.THETA)
         self.THETA_2 = self.THETA_1 @ self.THETA_1
 
     def initialize_states(self, pos_init):
-        self.state_xi = {i: np.zeros((6, len(self.t))) for i in range(self.Na)}
-        self.predicted_evolution = {i: np.zeros((6, self.Npred)) for i in range(self.Na)}
-        self.state_eta = {i: np.zeros((6, len(self.t))) for i in range(self.Na)}
-        self.angle_refs = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
-        self.thrusts = {i: np.zeros(len(self.t)) for i in range(self.Na)}
-        self.angular_speed_ref = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
-        self.vsim = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
-        self.e_int = {i: np.zeros((3, 1)) for i in range(self.Na)}
-        self.formation_error = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
+        self.state_xi = {i: np.zeros((4, len(self.t))) for i in range(self.Na)}
+        self.predicted_evolution = {i: np.zeros((4, self.Npred)) for i in range(self.Na)}
+        self.vsim = {i: np.zeros((2, len(self.t))) for i in range(self.Na)}
+        self.formation_error = {i: np.zeros((2, len(self.t))) for i in range(self.Na)}
 
-        self.acc = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
-        self.ang_acc = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
-        self.sigma = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
-
-        vel_init = np.zeros(3)
+        vel_init = np.zeros(2)
         for i in range(self.Na):
             self.state_xi[i][:, 0] = np.hstack((pos_init[i, :], vel_init))
 
-    def W(self, eta):
-        phi, theta, _ = eta
-        return np.array([[1, 0, -np.sin(theta)],
-                         [0, np.cos(phi), np.sin(phi) * np.cos(theta)],
-                         [0, -np.sin(phi), np.cos(phi) * np.cos(theta)]])
-
-    def W_dot(self, eta, rates):
-        phi, theta, _ = eta
-        p, q, _ = rates
-        return np.array([[1, 0, -np.cos(theta) * q],
-                        [0, -np.sin(phi) * p, np.cos(phi) * p * np.cos(theta) - np.sin(phi) * np.sin(theta) * q],
-                        [0, -np.cos(phi) * p, -np.sin(phi) * p * np.cos(theta) + np.cos(phi) * np.sin(theta) * q]])
-
-    def eta_ddot(self, x, tau):
-        eta, omega = x[6:9], x[9:12]
-        W_eta = self.W(eta)
-        W_dot_eta = self.W_dot(eta, omega)
-        term1 = np.linalg.inv(self.I_BF @ W_eta) @ (tau - self.I_BF @ W_dot_eta @ omega - np.cross(W_eta @ omega, self.I_BF @ W_eta @ omega))
-        return term1
-
-    def eps_ddot(self, x, u):
-        term1 = np.array([0, 0, -self.g])
-
-        term2 = (1 / self.m) * np.array([
-            np.cos(u[1]) * np.sin(u[2]) * np.cos(x[8]) + np.sin(u[1]) * np.sin(x[8]),
-            np.cos(u[1]) * np.sin(u[2]) * np.sin(x[8]) - np.sin(u[1]) * np.cos(x[8]),
-            np.cos(u[1]) * np.cos(u[2])
-        ]) * u[0]
-
-        return term1 + term2
-
     def setup_solver(self):
-        n, du = 6, 3
+        n, du = 4, 2
 
         self.spline_degree = 3
         # self.n_ctrl_pts = self.Npred + self.spline_degree - 1
@@ -132,7 +92,7 @@ class IMPC:
 
         solver = cas.Opti()
         x = solver.variable(n, self.Npred)
-        P_i = solver.variable(3, self.n_ctrl_pts)
+        P_i = solver.variable(2, self.n_ctrl_pts)
         v = solver.variable(du, self.Npred)
         phi_i = solver.variable(self.Na, 1)
 
@@ -145,7 +105,7 @@ class IMPC:
         self.eta1 = solver.parameter(1, 1)
         self.eta2 = solver.parameter(1, 1)
 
-        Acoll = solver.parameter(self.Na, 3)
+        Acoll = solver.parameter(self.Na, 2)
         bcoll = solver.parameter(self.Na, 1)
         coll_step = solver.parameter(1, 1)
         dij_at_coll = solver.parameter(self.Na, self.Na)
@@ -171,17 +131,17 @@ class IMPC:
             vel = cas.mtimes(cas.mtimes(P_i, self.conv_M[0]), b1)
             acc = cas.mtimes(cas.mtimes(P_i, self.conv_M[1]), b2)
 
-            pos_error = pos - xref_param[0:3, k]
-            vel_error = vel - xref_param[3:6, k]
+            pos_error = pos - xref_param[0:2, k]
+            vel_error = vel - xref_param[2:4, k]
             acc_error = acc
 
-            objective += cas.mtimes([pos_error.T, self.Q[0:3, 0:3], pos_error])
-            objective += cas.mtimes([vel_error.T, self.Q[3:6, 3:6], vel_error])
+            objective += cas.mtimes([pos_error.T, self.Q[0:2, 0:2], pos_error])
+            objective += cas.mtimes([vel_error.T, self.Q[2:4, 2:4], vel_error])
             objective += cas.mtimes([acc_error.T, self.R, acc_error])
 
-            solver.subject_to(cas.mtimes(self.Vc['A_vc'], acc) <= self.Vc['b_vc'])
-
+            # solver.subject_to(cas.mtimes(self.Vc['A_vc'][0:2, 0:2], acc) <= self.Vc['b_vc'][0:2])
             solver.subject_to(cas.mtimes(Acoll, cas.mtimes(P_i, self.b0_coll_param)) + cas.mtimes(dij_at_coll, phi_i) / 2 <= bcoll)
+            # solver.subject_to(phi_i <= cas.MX.zeros(self.Na, 1))
 
         for i in range(self.Na):
             objective += cas.mtimes(self.eta2, phi_i[i]**2) - cas.mtimes(self.eta1, phi_i[i])
@@ -208,7 +168,7 @@ class IMPC:
         self.dij_at_coll = dij_at_coll
 
     def run(self):
-        self.solver.set_value(self.vinit, np.zeros(3))
+        self.solver.set_value(self.vinit, np.zeros(2))
         start_time = time.time()
 
         for i in range(len(self.t) - 1):
@@ -218,6 +178,7 @@ class IMPC:
                 self.compute_control(i, id=id)
                 self.update_states(i, id=id)
             # file.write(f"[TIME] {time.time() - tic}\n")
+            file.write("\n")
 
         elapsed_time = time.time() - start_time
 
@@ -231,11 +192,11 @@ class IMPC:
         for j in range(self.Na):
             if id != j:
                 for k in range(self.Npred - 1):
-                    pos_id = self.predicted_evolution[id][:3, k+1]
-                    pos_j = self.predicted_evolution[j][:3, k+1]
+                    pos_id = self.predicted_evolution[id][:2, k+1]
+                    pos_j = self.predicted_evolution[j][:2, k+1]
                     dist = np.linalg.norm(pos_id - pos_j)
 
-                    if dist < self.r_min:
+                    if dist <= self.r_min:
                         collision_steps[j] = k
                         W_il.append(j)
                         file.write(f"[ITERATION {i}] Collision detected between agent {id} and agent {j} dist = {dist} at prediction step {k} and sim time {i+k}\n")
@@ -243,8 +204,7 @@ class IMPC:
         return W_il, collision_steps
 
     def compute_control(self, i, id=0):
-
-        Acoll = np.zeros((self.Na, 3))
+        Acoll = np.zeros((self.Na, 2))
         bcoll = np.zeros((self.Na, 1))
         dij_colls = np.zeros((self.Na, self.Na))
         collision_steps = {j: -1 for j in range(self.Na)}
@@ -255,12 +215,12 @@ class IMPC:
             W_il, collision_steps = self.detect_collision(i, id)
 
             for j in W_il:
-                diff = self.predicted_evolution[id][:3, collision_steps[j]] - self.predicted_evolution[j][:3, collision_steps[j]]
+                diff = self.predicted_evolution[id][:2, collision_steps[j]] - self.predicted_evolution[j][:2, collision_steps[j]]
                 dij_l = self.THETA_1 * diff
                 dij_l = np.linalg.norm(dij_l)
                 dij_colls[j, j] = dij_l
                 A = -(self.THETA_2 @ diff)
-                bcoll[j] = A @ self.predicted_evolution[id][:3, collision_steps[j]] - (self.r_min - dij_l) * dij_l / 2
+                bcoll[j] = A @ self.predicted_evolution[id][:2, collision_steps[j]] - (self.r_min - dij_l) * dij_l / 2
                 Acoll[j] = A.reshape(1, -1)
 
         valid_points = [l for l in collision_steps.values() if l >= 0]
@@ -278,11 +238,11 @@ class IMPC:
         self.solver.set_value(self.eta2, eta2)
 
         if i + self.Npred <= len(self.t):
-            desired_pos = self.pos_ref[id][i:i+self.Npred, 0:3].T
-            ref = np.vstack([desired_pos, self.pos_ref[id][i:i+self.Npred, 3:6].T])
+            desired_pos = self.pos_ref[id][i:i+self.Npred, 0:2].T
+            ref = np.vstack([desired_pos, self.pos_ref[id][i:i+self.Npred, 2:4].T])
         else:
-            desired_pos = self.pos_ref[id][-self.Npred:, 0:3].T
-            ref = np.vstack([desired_pos, self.pos_ref[id][-self.Npred:, 3:6].T])
+            desired_pos = self.pos_ref[id][-self.Npred:, 0:2].T
+            ref = np.vstack([desired_pos, self.pos_ref[id][-self.Npred:, 2:4].T])
 
         self.solver.set_value(self.xref_param, ref)
         # self.solver.set_value(self.vref_param, ref)
@@ -303,82 +263,24 @@ class IMPC:
         self.predicted_evolution[id] = P_sol @ B_mat.T
 
     def update_states(self, i, id=0):
-        v_ap = self.vsim[id][:, i]
-
-        T, phi_d, theta_d = fl_laws(v_ap, self.state_eta[id][2, i])
-
-        self.thrusts[id][i] = T
-        self.angle_refs[id][:, i] = np.hstack([phi_d, theta_d, self.psi_ref[id][i]])
-
-        if i == 0:
-            self.angular_speed_ref[id][:, i] = 0
-        else:
-            self.angular_speed_ref[id][:, i] = (self.angle_refs[id][:, i] - self.angle_refs[id][:, i-1]) / self.Ts
-
-        [tau, sigma] = run_att_PD(self.state_eta[id][:, i], self.angle_refs[id][:, i], self.angular_speed_ref[id][:, i], 0)
-        ang_acc = self.eta_ddot(np.hstack((self.state_xi[id][:, i], self.state_eta[id][:, i])), tau)
-        acc = self.eps_ddot(np.hstack((self.state_xi[id][:, i], self.state_eta[id][:, i])), np.array([T, phi_d, theta_d]))
-
-        self.acc[id][:, i] = acc
-        self.ang_acc[id][:, i] = ang_acc
-        self.sigma[id][:, i] = sigma
-
-        # self.state_eta[id][:, i+1] = self.A_d @ self.state_eta[id][:, i] + self.B_d @ sigma
-
-        self.state_eta[id][3:6, i+1] = self.state_eta[id][3:6, i] + ang_acc * self.Ts
-        self.state_eta[id][0:3, i+1] = self.state_eta[id][0:3, i] + self.state_eta[id][3:6, i] * self.Ts
-
-        # self.state_xi[id][:, i + 1] = self.A_d @ self.state_xi[id][:, i] + self.B_d @ self.vsim[id][:, i]
-
-        self.state_xi[id][3:6, i+1] = self.state_xi[id][3:6, i] + acc * self.Ts
-        self.state_xi[id][0:3, i+1] = self.state_xi[id][0:3, i] + self.state_xi[id][3:6, i] * self.Ts
-
-    def plot_spline(self, P):
-        tt = np.linspace(self.knot_vec[self.spline_degree], self.knot_vec[-self.spline_degree - 1], 200)
-
-        spn = [BSpline(self.knot_vec, P[i], self.spline_degree) for i in range(3)]
-
-        fig = plt.figure()
-        ax = fig.add_subplot(1, 1, 1, projection='3d')
-
-        ax.plot(spn[0](tt), spn[1](tt), spn[2](tt), lw=2, label='Spline Trajectory')
-        ax.plot(P[0], P[1], P[2], 'r--', lw=1, label='Control Polygon')
-        ax.scatter(P[0], P[1], P[2], c='r', marker='o', label='Control Points')
-
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
-        ax.grid(True)
-        ax.legend()
-        plt.title("Optimized B-spline trajectory")
-        plt.show()
+        self.state_xi[id][:, i + 1] = self.A_d @ self.state_xi[id][:, i] + self.B_d @ self.vsim[id][:, i]
 
 
 if __name__ == "__main__":
 
-    # pos_init = np.array([np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([-1, 0, 0]), np.array([0, -1, 0])])
-    # pos_init = np.array([np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([-1, 0, 0])])
-    pos_init = np.array([np.array([1, 1, 0]), np.array([3, 1, 0]), np.array([3, 3, 0]), np.array([1, 3, 0])])
-    # pos_init = np.array([np.array([1, 1, 0]), np.array([4, 1, 0])])
-    # pos_init = np.array([np.array([1, 1, 0])])
+    pos_init = np.array([np.array([1, 1]), np.array([3, 1]), np.array([3, 3]), np.array([1, 3])])
+    # pos_init = np.array([np.array([1, 1]),  np.array([3, 3])])
 
     controller = IMPC(pos_init)
     controller.run()
 
-    plot_positions(controller.t, controller.state_xi[0], controller.pos_ref[0], id=0)
-    plot_velocities(controller.t, controller.state_xi[0], controller.pos_ref[0][:, 3:6], id=0)
+    # plot_positions(controller.t, controller.state_xi[0], controller.pos_ref[0], id=0)
+    # plot_velocities(controller.t, controller.state_xi[0], controller.pos_ref[0][:, 2:4], id=0)
 
-    plot_positions(controller.t, controller.state_xi[1], controller.pos_ref[1], id=1)
-    plot_velocities(controller.t, controller.state_xi[1], controller.pos_ref[1][:, 3:6], id=1)
+    # plot_positions(controller.t, controller.state_xi[1], controller.pos_ref[1], id=1)
+    # plot_velocities(controller.t, controller.state_xi[1], controller.pos_ref[1][:, 2:4], id=1)
 
     plot_all_agent_distances(controller.t, controller.state_xi, d0=controller.r_min)
-
-    plot_real_u(controller.t, controller.thrusts[0], controller.angle_refs[0], id=0)
-    plot_real_u(controller.t, controller.thrusts[1], controller.angle_refs[1], id=1)
-    # plot_real_u(controller.t, controller.thrusts[2], controller.angle_refs[2], id=2)
-    # plot_real_u(controller.t, controller.thrusts[3], controller.angle_refs[3], id=3)
-
-    # plot_formation_error(controller.t, controller.formation_error, controller.Na)
 
     plot_traj_animated(controller.t, controller.state_xi, controller.pos_ref)
 
