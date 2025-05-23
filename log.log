@@ -1,42 +1,664 @@
-[ITERATION 11] Collision detected between agent 1 and agent 0 dist = 0.3349543367802279 at prediction step 13 and sim time 24
-[ITERATION 11] Collision detected between agent 3 and agent 0 dist = 0.3349543367800634 at prediction step 13 and sim time 24
-[ITERATION 11] Collision detected between agent 3 and agent 2 dist = 0.33495433678017944 at prediction step 13 and sim time 24
-[ITERATION 12] Collision detected between agent 2 and agent 0 dist = 0.3082085887710205 at prediction step 13 and sim time 25
-[ITERATION 12] Collision detected between agent 2 and agent 1 dist = 0.3155364987021147 at prediction step 12 and sim time 24
-[ITERATION 13] Collision detected between agent 0 and agent 1 dist = 0.2961620391889769 at prediction step 12 and sim time 25
-[ITERATION 13] Collision detected between agent 0 and agent 3 dist = 0.29484355419977537 at prediction step 12 and sim time 25
-[ITERATION 13] Collision detected between agent 1 and agent 3 dist = 0.32235986858468646 at prediction step 13 and sim time 26
-[ITERATION 13] Collision detected between agent 3 and agent 2 dist = 0.3447561752010788 at prediction step 11 and sim time 24
-[ITERATION 14] Collision detected between agent 2 and agent 0 dist = 0.24691094880439757 at prediction step 12 and sim time 26
-[ITERATION 14] Collision detected between agent 2 and agent 1 dist = 0.2641393952432021 at prediction step 11 and sim time 25
-[ITERATION 15] Collision detected between agent 0 and agent 1 dist = 0.3390143620724152 at prediction step 10 and sim time 25
-[ITERATION 15] Collision detected between agent 0 and agent 3 dist = 0.31669942715462585 at prediction step 10 and sim time 25
-[ITERATION 15] Collision detected between agent 1 and agent 3 dist = 0.23873852559991654 at prediction step 12 and sim time 27
-[ITERATION 15] Collision detected between agent 3 and agent 2 dist = 0.28677418799471127 at prediction step 10 and sim time 25
-[ITERATION 16] Collision detected between agent 2 and agent 0 dist = 0.3456740342109995 at prediction step 10 and sim time 26
-[ITERATION 16] Collision detected between agent 2 and agent 1 dist = 0.31906956168252965 at prediction step 9 and sim time 25
-[ITERATION 17] Collision detected between agent 0 and agent 1 dist = 0.3189818907702633 at prediction step 9 and sim time 26
-[ITERATION 17] Collision detected between agent 0 and agent 3 dist = 0.34961672420520795 at prediction step 8 and sim time 25
-[ITERATION 17] Collision detected between agent 1 and agent 3 dist = 0.30524792789158073 at prediction step 10 and sim time 27
-[ITERATION 17] Collision detected between agent 3 and agent 2 dist = 0.33751238511843185 at prediction step 8 and sim time 25
-[ITERATION 18] Collision detected between agent 0 and agent 3 dist = 0.33212319870117624 at prediction step 11 and sim time 29
-[ITERATION 18] Collision detected between agent 2 and agent 1 dist = 0.30827916277608636 at prediction step 8 and sim time 26
-[ITERATION 19] Collision detected between agent 1 and agent 0 dist = 0.27978281431230334 at prediction step 8 and sim time 27
-[ITERATION 19] Collision detected between agent 1 and agent 3 dist = 0.297411130295295 at prediction step 9 and sim time 28
-[ITERATION 19] Collision detected between agent 3 and agent 0 dist = 0.3348677809373461 at prediction step 7 and sim time 26
-[ITERATION 19] Collision detected between agent 3 and agent 2 dist = 0.3134000548918284 at prediction step 7 and sim time 26
-[ITERATION 20] Collision detected between agent 0 and agent 2 dist = 0.33133645473732154 at prediction step 9 and sim time 29
-[ITERATION 20] Collision detected between agent 2 and agent 1 dist = 0.3030864421267973 at prediction step 7 and sim time 27
-[ITERATION 20] Collision detected between agent 2 and agent 3 dist = 0.32850435171989745 at prediction step 13 and sim time 33
-[ITERATION 21] Collision detected between agent 0 and agent 3 dist = 0.34407270801311246 at prediction step 10 and sim time 31
-[ITERATION 21] Collision detected between agent 1 and agent 2 dist = 0.31521019517933113 at prediction step 11 and sim time 32
-[ITERATION 21] Collision detected between agent 1 and agent 3 dist = 0.32847284282167033 at prediction step 9 and sim time 30
-[ITERATION 21] Collision detected between agent 3 and agent 2 dist = 0.3325238681718807 at prediction step 6 and sim time 27
-[ITERATION 22] Collision detected between agent 1 and agent 0 dist = 0.33010397258459334 at prediction step 8 and sim time 30
-[ITERATION 23] Collision detected between agent 0 and agent 3 dist = 0.3317672310907478 at prediction step 6 and sim time 29
-[ITERATION 23] Collision detected between agent 2 and agent 1 dist = 0.3392683707966283 at prediction step 5 and sim time 28
-[ITERATION 23] Collision detected between agent 2 and agent 3 dist = 0.3413635464173119 at prediction step 6 and sim time 29
-[ITERATION 24] Collision detected between agent 1 and agent 0 dist = 0.3373466854676978 at prediction step 6 and sim time 30
-[ITERATION 24] Collision detected between agent 1 and agent 2 dist = 0.34741539544825356 at prediction step 13 and sim time 37
-[ITERATION 25] Collision detected between agent 0 and agent 3 dist = 0.34269857683932686 at prediction step 5 and sim time 30
-[ITERATION 25] Collision detected between agent 2 and agent 1 dist = 0.3379310123878864 at prediction step 4 and sim time 29
+
+[ITERATION 1] Collision detected between agent 0 and agent 1 dist = 0.3383082695967561 at prediction step 24 and sim time 25
+[ITERATION 1] Collision detected between agent 0 and agent 2 dist = 0.3210335102601679 at prediction step 26 and sim time 27
+[ITERATION 1] Collision detected between agent 0 and agent 3 dist = 0.33830826959665394 at prediction step 24 and sim time 25
+[ITERATION 1] Collision detected between agent 1 and agent 0 dist = 0.3133242662413534 at prediction step 27 and sim time 28
+[ITERATION 1] Collision detected between agent 1 and agent 2 dist = 0.33830826959686267 at prediction step 24 and sim time 25
+[ITERATION 1] Collision detected between agent 1 and agent 3 dist = 0.3210335102601682 at prediction step 26 and sim time 27
+[ITERATION 1] Collision detected between agent 2 and agent 0 dist = 0.30132734183905147 at prediction step 29 and sim time 30
+[ITERATION 1] Collision detected between agent 2 and agent 1 dist = 0.3477219551892479 at prediction step 26 and sim time 27
+[ITERATION 1] Collision detected between agent 2 and agent 3 dist = 0.3383082695967561 at prediction step 24 and sim time 25
+[ITERATION 1] Collision detected between agent 3 and agent 0 dist = 0.3133242662413135 at prediction step 27 and sim time 28
+[ITERATION 1] Collision detected between agent 3 and agent 1 dist = 0.34419922131653885 at prediction step 28 and sim time 29
+[ITERATION 1] Collision detected between agent 3 and agent 2 dist = 0.3464815315839549 at prediction step 26 and sim time 27
+
+[ITERATION 2] Collision detected between agent 0 and agent 1 dist = 0.318309411276359 at prediction step 29 and sim time 31
+[ITERATION 2] Collision detected between agent 0 and agent 2 dist = 0.3125755388345169 at prediction step 32 and sim time 34
+[ITERATION 2] Collision detected between agent 0 and agent 3 dist = 0.34521531938382116 at prediction step 29 and sim time 31
+[ITERATION 2] Collision detected between agent 1 and agent 0 dist = 0.34697808728504287 at prediction step 32 and sim time 34
+[ITERATION 2] Collision detected between agent 1 and agent 2 dist = 0.3391301832906731 at prediction step 28 and sim time 30
+[ITERATION 2] Collision detected between agent 1 and agent 3 dist = 0.3405178842187536 at prediction step 32 and sim time 34
+[ITERATION 2] Collision detected between agent 2 and agent 0 dist = 0.34321982588769506 at prediction step 36 and sim time 38
+[ITERATION 2] Collision detected between agent 2 and agent 1 dist = 0.3327745774449366 at prediction step 31 and sim time 33
+[ITERATION 2] Collision detected between agent 2 and agent 3 dist = 0.3318112494286813 at prediction step 29 and sim time 31
+[ITERATION 2] Collision detected between agent 3 and agent 0 dist = 0.3431734244644133 at prediction step 33 and sim time 35
+[ITERATION 2] Collision detected between agent 3 and agent 1 dist = 0.34201930688496157 at prediction step 36 and sim time 38
+[ITERATION 2] Collision detected between agent 3 and agent 2 dist = 0.34417996179193167 at prediction step 32 and sim time 34
+
+[ITERATION 3] Collision detected between agent 0 and agent 1 dist = 0.3461797020462512 at prediction step 35 and sim time 38
+[ITERATION 3] Collision detected between agent 0 and agent 2 dist = 0.334213804174149 at prediction step 45 and sim time 48
+[ITERATION 3] Collision detected between agent 0 and agent 3 dist = 0.3482566432327322 at prediction step 39 and sim time 42
+[ITERATION 3] Collision detected between agent 1 and agent 0 dist = 0.34259101212684795 at prediction step 45 and sim time 48
+[ITERATION 3] Collision detected between agent 1 and agent 2 dist = 0.3497132895807309 at prediction step 34 and sim time 37
+[ITERATION 3] Collision detected between agent 1 and agent 3 dist = 0.333247943182022 at prediction step 46 and sim time 49
+[ITERATION 3] Collision detected between agent 2 and agent 1 dist = 0.34866776418254625 at prediction step 41 and sim time 44
+[ITERATION 3] Collision detected between agent 2 and agent 3 dist = 0.345673560406703 at prediction step 38 and sim time 41
+[ITERATION 3] Collision detected between agent 3 and agent 0 dist = 0.3355463664816213 at prediction step 48 and sim time 51
+[ITERATION 3] Collision detected between agent 3 and agent 2 dist = 0.34094225765275643 at prediction step 48 and sim time 51
+
+[ITERATION 4] Collision detected between agent 1 and agent 0 dist = 0.3467676196376721 at prediction step 33 and sim time 37
+[ITERATION 4] Collision detected between agent 2 and agent 0 dist = 0.341980560965084 at prediction step 30 and sim time 34
+[ITERATION 4] Collision detected between agent 3 and agent 0 dist = 0.3439673637906161 at prediction step 26 and sim time 30
+
+[ITERATION 5] Collision detected between agent 0 and agent 2 dist = 0.3235049557376269 at prediction step 32 and sim time 37
+[ITERATION 5] Collision detected between agent 0 and agent 3 dist = 0.3484556987040564 at prediction step 28 and sim time 33
+[ITERATION 5] Collision detected between agent 1 and agent 0 dist = 0.33620859347009957 at prediction step 29 and sim time 34
+[ITERATION 5] Collision detected between agent 2 and agent 0 dist = 0.32951512201794514 at prediction step 34 and sim time 39
+[ITERATION 5] Collision detected between agent 2 and agent 1 dist = 0.3443009316258922 at prediction step 45 and sim time 50
+[ITERATION 5] Collision detected between agent 2 and agent 3 dist = 0.337005435191834 at prediction step 33 and sim time 38
+[ITERATION 5] Collision detected between agent 3 and agent 0 dist = 0.33763791717813363 at prediction step 32 and sim time 37
+[ITERATION 5] Collision detected between agent 3 and agent 1 dist = 0.3466163714159531 at prediction step 46 and sim time 51
+[ITERATION 5] Collision detected between agent 3 and agent 2 dist = 0.34292358220963975 at prediction step 41 and sim time 46
+
+[ITERATION 6] Collision detected between agent 0 and agent 1 dist = 0.335802096461739 at prediction step 32 and sim time 38
+[ITERATION 6] Collision detected between agent 0 and agent 2 dist = 0.33936218073988095 at prediction step 39 and sim time 45
+[ITERATION 6] Collision detected between agent 0 and agent 3 dist = 0.34436768014649066 at prediction step 39 and sim time 45
+[ITERATION 6] Collision detected between agent 1 and agent 0 dist = 0.33460438706428547 at prediction step 33 and sim time 39
+[ITERATION 6] Collision detected between agent 2 and agent 0 dist = 0.34579002721419416 at prediction step 43 and sim time 49
+[ITERATION 6] Collision detected between agent 2 and agent 1 dist = 0.3487454805938396 at prediction step 48 and sim time 54
+[ITERATION 6] Collision detected between agent 2 and agent 3 dist = 0.3421286411276815 at prediction step 48 and sim time 54
+[ITERATION 6] Collision detected between agent 3 and agent 0 dist = 0.34995794490463095 at prediction step 39 and sim time 45
+
+[ITERATION 7] Collision detected between agent 0 and agent 1 dist = 0.34812183144712217 at prediction step 38 and sim time 45
+[ITERATION 7] Collision detected between agent 2 and agent 0 dist = 0.34598374516181096 at prediction step 31 and sim time 38
+[ITERATION 7] Collision detected between agent 3 and agent 0 dist = 0.3319305694754701 at prediction step 26 and sim time 33
+[ITERATION 7] Collision detected between agent 3 and agent 1 dist = 0.3372563575677377 at prediction step 28 and sim time 35
+
+[ITERATION 8] Collision detected between agent 0 and agent 1 dist = 0.3080543855842221 at prediction step 22 and sim time 30
+[ITERATION 8] Collision detected between agent 0 and agent 2 dist = 0.33665309733819276 at prediction step 34 and sim time 42
+[ITERATION 8] Collision detected between agent 0 and agent 3 dist = 0.34246373440622335 at prediction step 28 and sim time 36
+[ITERATION 8] Collision detected between agent 1 and agent 0 dist = 0.3068247853985148 at prediction step 24 and sim time 32
+[ITERATION 8] Collision detected between agent 1 and agent 3 dist = 0.3465914016291789 at prediction step 29 and sim time 37
+[ITERATION 8] Collision detected between agent 2 and agent 0 dist = 0.3381279619850733 at prediction step 38 and sim time 46
+[ITERATION 8] Collision detected between agent 2 and agent 1 dist = 0.344027342120305 at prediction step 28 and sim time 36
+[ITERATION 8] Collision detected between agent 2 and agent 3 dist = 0.338312775238728 at prediction step 41 and sim time 49
+[ITERATION 8] Collision detected between agent 3 and agent 0 dist = 0.3443468629014186 at prediction step 29 and sim time 37
+[ITERATION 8] Collision detected between agent 3 and agent 1 dist = 0.3472754989726585 at prediction step 30 and sim time 38
+[ITERATION 8] Collision detected between agent 3 and agent 2 dist = 0.3421936134769308 at prediction step 41 and sim time 49
+
+[ITERATION 9] Collision detected between agent 0 and agent 1 dist = 0.3428002787709712 at prediction step 26 and sim time 35
+[ITERATION 9] Collision detected between agent 0 and agent 2 dist = 0.34822206415572793 at prediction step 38 and sim time 47
+[ITERATION 9] Collision detected between agent 0 and agent 3 dist = 0.32984959620077625 at prediction step 33 and sim time 42
+[ITERATION 9] Collision detected between agent 1 and agent 0 dist = 0.3186641851635082 at prediction step 29 and sim time 38
+[ITERATION 9] Collision detected between agent 1 and agent 2 dist = 0.349604799367014 at prediction step 45 and sim time 54
+[ITERATION 9] Collision detected between agent 1 and agent 3 dist = 0.34860984503068365 at prediction step 32 and sim time 41
+[ITERATION 9] Collision detected between agent 2 and agent 0 dist = 0.3473688101479371 at prediction step 44 and sim time 53
+[ITERATION 9] Collision detected between agent 2 and agent 3 dist = 0.34432636924633053 at prediction step 46 and sim time 55
+[ITERATION 9] Collision detected between agent 3 and agent 0 dist = 0.34226923014810456 at prediction step 34 and sim time 43
+[ITERATION 9] Collision detected between agent 3 and agent 1 dist = 0.3292920440106291 at prediction step 32 and sim time 41
+
+[ITERATION 10] Collision detected between agent 0 and agent 1 dist = 0.317933348079642 at prediction step 27 and sim time 37
+[ITERATION 10] Collision detected between agent 0 and agent 3 dist = 0.34072550010555247 at prediction step 43 and sim time 53
+[ITERATION 10] Collision detected between agent 1 and agent 0 dist = 0.3331044905975246 at prediction step 29 and sim time 39
+[ITERATION 10] Collision detected between agent 1 and agent 2 dist = 0.33996056191642726 at prediction step 20 and sim time 30
+[ITERATION 10] Collision detected between agent 1 and agent 3 dist = 0.3425098448452119 at prediction step 37 and sim time 47
+[ITERATION 10] Collision detected between agent 2 and agent 1 dist = 0.3462762817278296 at prediction step 22 and sim time 32
+[ITERATION 10] Collision detected between agent 3 and agent 0 dist = 0.34080070385480216 at prediction step 44 and sim time 54
+
+[ITERATION 11] Collision detected between agent 0 and agent 1 dist = 0.33191858074246267 at prediction step 27 and sim time 38
+[ITERATION 11] Collision detected between agent 0 and agent 2 dist = 0.3476698260235401 at prediction step 29 and sim time 40
+[ITERATION 11] Collision detected between agent 1 and agent 0 dist = 0.3282119337557693 at prediction step 30 and sim time 41
+[ITERATION 11] Collision detected between agent 1 and agent 2 dist = 0.33306521818995116 at prediction step 25 and sim time 36
+[ITERATION 11] Collision detected between agent 1 and agent 3 dist = 0.3473274260611259 at prediction step 26 and sim time 37
+[ITERATION 11] Collision detected between agent 2 and agent 0 dist = 0.34808076053797954 at prediction step 31 and sim time 42
+[ITERATION 11] Collision detected between agent 2 and agent 1 dist = 0.33057285576454914 at prediction step 28 and sim time 39
+[ITERATION 11] Collision detected between agent 2 and agent 3 dist = 0.28667416322276046 at prediction step 20 and sim time 31
+[ITERATION 11] Collision detected between agent 3 and agent 2 dist = 0.3024477271097493 at prediction step 22 and sim time 33
+
+[ITERATION 12] Collision detected between agent 0 and agent 1 dist = 0.34292374434785816 at prediction step 31 and sim time 43
+[ITERATION 12] Collision detected between agent 0 and agent 3 dist = 0.3457671451705777 at prediction step 22 and sim time 34
+[ITERATION 12] Collision detected between agent 1 and agent 0 dist = 0.33325395412879577 at prediction step 33 and sim time 45
+[ITERATION 12] Collision detected between agent 1 and agent 2 dist = 0.3368708142924665 at prediction step 26 and sim time 38
+[ITERATION 12] Collision detected between agent 1 and agent 3 dist = 0.29993324031820123 at prediction step 25 and sim time 37
+[ITERATION 12] Collision detected between agent 2 and agent 1 dist = 0.34252949942538546 at prediction step 29 and sim time 41
+[ITERATION 12] Collision detected between agent 2 and agent 3 dist = 0.3394878143581757 at prediction step 25 and sim time 37
+[ITERATION 12] Collision detected between agent 3 and agent 1 dist = 0.3139453103004847 at prediction step 27 and sim time 39
+[ITERATION 12] Collision detected between agent 3 and agent 2 dist = 0.34212787989893706 at prediction step 27 and sim time 39
+
+[ITERATION 13] Collision detected between agent 0 and agent 1 dist = 0.34834699310720235 at prediction step 37 and sim time 50
+[ITERATION 13] Collision detected between agent 0 and agent 3 dist = 0.3494544215022037 at prediction step 25 and sim time 38
+[ITERATION 13] Collision detected between agent 1 and agent 2 dist = 0.3403893210124939 at prediction step 32 and sim time 45
+[ITERATION 13] Collision detected between agent 1 and agent 3 dist = 0.32423876456999634 at prediction step 30 and sim time 43
+[ITERATION 13] Collision detected between agent 2 and agent 1 dist = 0.3474766128569399 at prediction step 44 and sim time 57
+[ITERATION 13] Collision detected between agent 2 and agent 3 dist = 0.3357308644864893 at prediction step 31 and sim time 44
+[ITERATION 13] Collision detected between agent 3 and agent 1 dist = 0.34796846251794367 at prediction step 36 and sim time 49
+[ITERATION 13] Collision detected between agent 3 and agent 2 dist = 0.34360222928330547 at prediction step 41 and sim time 54
+
+[ITERATION 14] Collision detected between agent 2 and agent 0 dist = 0.3345931421524076 at prediction step 23 and sim time 37
+[ITERATION 14] Collision detected between agent 2 and agent 1 dist = 0.3384507222811544 at prediction step 18 and sim time 32
+[ITERATION 14] Collision detected between agent 3 and agent 0 dist = 0.33003434112948865 at prediction step 19 and sim time 33
+[ITERATION 14] Collision detected between agent 3 and agent 1 dist = 0.3073413482378297 at prediction step 21 and sim time 35
+[ITERATION 14] Collision detected between agent 3 and agent 2 dist = 0.3366029440685679 at prediction step 27 and sim time 41
+
+[ITERATION 15] Collision detected between agent 0 and agent 1 dist = 0.32888004094021983 at prediction step 17 and sim time 32
+[ITERATION 15] Collision detected between agent 0 and agent 2 dist = 0.30949890581072553 at prediction step 24 and sim time 39
+[ITERATION 15] Collision detected between agent 0 and agent 3 dist = 0.32552673408744887 at prediction step 21 and sim time 36
+[ITERATION 15] Collision detected between agent 1 and agent 0 dist = 0.30872173276833903 at prediction step 19 and sim time 34
+[ITERATION 15] Collision detected between agent 1 and agent 3 dist = 0.32136829276697615 at prediction step 22 and sim time 37
+[ITERATION 15] Collision detected between agent 2 and agent 0 dist = 0.3397359196113052 at prediction step 27 and sim time 42
+[ITERATION 15] Collision detected between agent 2 and agent 1 dist = 0.33102776520030197 at prediction step 19 and sim time 34
+[ITERATION 15] Collision detected between agent 2 and agent 3 dist = 0.3324571806427496 at prediction step 27 and sim time 42
+[ITERATION 15] Collision detected between agent 3 and agent 0 dist = 0.3296859139176736 at prediction step 22 and sim time 37
+[ITERATION 15] Collision detected between agent 3 and agent 1 dist = 0.3166865016030605 at prediction step 23 and sim time 38
+[ITERATION 15] Collision detected between agent 3 and agent 2 dist = 0.33172798245007873 at prediction step 29 and sim time 44
+
+[ITERATION 16] Collision detected between agent 0 and agent 1 dist = 0.33079513110436376 at prediction step 21 and sim time 37
+[ITERATION 16] Collision detected between agent 0 and agent 2 dist = 0.3410031247559882 at prediction step 31 and sim time 47
+[ITERATION 16] Collision detected between agent 0 and agent 3 dist = 0.34478273690437305 at prediction step 24 and sim time 40
+[ITERATION 16] Collision detected between agent 1 and agent 0 dist = 0.33789384628156677 at prediction step 23 and sim time 39
+[ITERATION 16] Collision detected between agent 1 and agent 2 dist = 0.33904964973981566 at prediction step 22 and sim time 38
+[ITERATION 16] Collision detected between agent 1 and agent 3 dist = 0.3398524240864604 at prediction step 24 and sim time 40
+[ITERATION 16] Collision detected between agent 2 and agent 1 dist = 0.3444592739216095 at prediction step 24 and sim time 40
+[ITERATION 16] Collision detected between agent 2 and agent 3 dist = 0.33155072105400474 at prediction step 32 and sim time 48
+[ITERATION 16] Collision detected between agent 3 and agent 0 dist = 0.3391770202259427 at prediction step 26 and sim time 42
+[ITERATION 16] Collision detected between agent 3 and agent 1 dist = 0.3200853227365762 at prediction step 27 and sim time 43
+[ITERATION 16] Collision detected between agent 3 and agent 2 dist = 0.3455664186725683 at prediction step 38 and sim time 54
+
+[ITERATION 17] Collision detected between agent 0 and agent 1 dist = 0.31687679615864306 at prediction step 24 and sim time 41
+[ITERATION 17] Collision detected between agent 0 and agent 3 dist = 0.3453113854939087 at prediction step 31 and sim time 48
+[ITERATION 17] Collision detected between agent 1 and agent 0 dist = 0.3385990171740578 at prediction step 27 and sim time 44
+[ITERATION 17] Collision detected between agent 1 and agent 3 dist = 0.34607687299403 at prediction step 31 and sim time 48
+[ITERATION 17] Collision detected between agent 3 and agent 0 dist = 0.3468086589112861 at prediction step 33 and sim time 50
+
+[ITERATION 18] Collision detected between agent 0 and agent 1 dist = 0.34665524639133205 at prediction step 34 and sim time 52
+[ITERATION 18] Collision detected between agent 0 and agent 2 dist = 0.3327282355191112 at prediction step 22 and sim time 40
+[ITERATION 18] Collision detected between agent 1 and agent 2 dist = 0.32619811881979965 at prediction step 18 and sim time 36
+[ITERATION 18] Collision detected between agent 1 and agent 3 dist = 0.30265908242612694 at prediction step 20 and sim time 38
+[ITERATION 18] Collision detected between agent 2 and agent 1 dist = 0.3333412102263091 at prediction step 20 and sim time 38
+[ITERATION 18] Collision detected between agent 2 and agent 3 dist = 0.3095794454926721 at prediction step 15 and sim time 33
+[ITERATION 18] Collision detected between agent 3 and agent 0 dist = 0.34282883481656556 at prediction step 15 and sim time 33
+[ITERATION 18] Collision detected between agent 3 and agent 1 dist = 0.33930767824787733 at prediction step 22 and sim time 40
+[ITERATION 18] Collision detected between agent 3 and agent 2 dist = 0.33626206842710504 at prediction step 16 and sim time 34
+
+[ITERATION 19] Collision detected between agent 0 and agent 3 dist = 0.34817633427137235 at prediction step 16 and sim time 35
+[ITERATION 19] Collision detected between agent 1 and agent 0 dist = 0.33462276333871305 at prediction step 22 and sim time 41
+[ITERATION 19] Collision detected between agent 1 and agent 2 dist = 0.34355466554565733 at prediction step 20 and sim time 39
+[ITERATION 19] Collision detected between agent 2 and agent 0 dist = 0.3398039015039904 at prediction step 21 and sim time 40
+[ITERATION 19] Collision detected between agent 2 and agent 1 dist = 0.3380786693765803 at prediction step 22 and sim time 41
+[ITERATION 19] Collision detected between agent 2 and agent 3 dist = 0.31856752806744143 at prediction step 18 and sim time 37
+[ITERATION 19] Collision detected between agent 3 and agent 0 dist = 0.34151636154552106 at prediction step 20 and sim time 39
+[ITERATION 19] Collision detected between agent 3 and agent 2 dist = 0.32658169751037136 at prediction step 20 and sim time 39
+
+[ITERATION 20] Collision detected between agent 0 and agent 2 dist = 0.32957445735448837 at prediction step 24 and sim time 44
+[ITERATION 20] Collision detected between agent 0 and agent 3 dist = 0.3356284420264787 at prediction step 23 and sim time 43
+[ITERATION 20] Collision detected between agent 1 and agent 0 dist = 0.34809161628251634 at prediction step 26 and sim time 46
+[ITERATION 20] Collision detected between agent 1 and agent 2 dist = 0.34385821386709936 at prediction step 22 and sim time 42
+[ITERATION 20] Collision detected between agent 2 and agent 1 dist = 0.3408498759736709 at prediction step 26 and sim time 46
+[ITERATION 20] Collision detected between agent 3 and agent 0 dist = 0.3434996655522378 at prediction step 28 and sim time 48
+[ITERATION 20] Collision detected between agent 3 and agent 2 dist = 0.34988489592805955 at prediction step 19 and sim time 39
+
+[ITERATION 21] Collision detected between agent 0 and agent 2 dist = 0.3330718293538956 at prediction step 26 and sim time 47
+[ITERATION 21] Collision detected between agent 0 and agent 3 dist = 0.34646169032244334 at prediction step 35 and sim time 56
+[ITERATION 21] Collision detected between agent 1 and agent 2 dist = 0.3453072512666143 at prediction step 31 and sim time 52
+
+[ITERATION 22] Collision detected between agent 0 and agent 1 dist = 0.3158052063811168 at prediction step 16 and sim time 38
+[ITERATION 22] Collision detected between agent 1 and agent 2 dist = 0.32465723366516974 at prediction step 15 and sim time 37
+[ITERATION 22] Collision detected between agent 1 and agent 3 dist = 0.34196165472710793 at prediction step 15 and sim time 37
+[ITERATION 22] Collision detected between agent 2 and agent 1 dist = 0.3440283963249844 at prediction step 16 and sim time 38
+[ITERATION 22] Collision detected between agent 2 and agent 3 dist = 0.31550010555544394 at prediction step 13 and sim time 35
+[ITERATION 22] Collision detected between agent 3 and agent 0 dist = 0.3239410490307274 at prediction step 12 and sim time 34
+[ITERATION 22] Collision detected between agent 3 and agent 1 dist = 0.3491415887126597 at prediction step 18 and sim time 40
+[ITERATION 22] Collision detected between agent 3 and agent 2 dist = 0.3429305758213645 at prediction step 14 and sim time 36
+
+[ITERATION 23] Collision detected between agent 0 and agent 3 dist = 0.3429265274393809 at prediction step 13 and sim time 36
+[ITERATION 23] Collision detected between agent 1 and agent 0 dist = 0.3112588033478985 at prediction step 14 and sim time 37
+[ITERATION 23] Collision detected between agent 1 and agent 2 dist = 0.3481155319934868 at prediction step 20 and sim time 43
+[ITERATION 23] Collision detected between agent 2 and agent 0 dist = 0.3335917443066718 at prediction step 18 and sim time 41
+[ITERATION 23] Collision detected between agent 2 and agent 3 dist = 0.34018008332877575 at prediction step 15 and sim time 38
+[ITERATION 23] Collision detected between agent 3 and agent 0 dist = 0.32596914729783655 at prediction step 16 and sim time 39
+[ITERATION 23] Collision detected between agent 3 and agent 2 dist = 0.34814315180560307 at prediction step 20 and sim time 43
+
+[ITERATION 24] Collision detected between agent 0 and agent 1 dist = 0.34464337074662454 at prediction step 14 and sim time 38
+[ITERATION 24] Collision detected between agent 0 and agent 3 dist = 0.3438718211601838 at prediction step 20 and sim time 44
+[ITERATION 24] Collision detected between agent 2 and agent 1 dist = 0.34262326041452407 at prediction step 12 and sim time 36
+[ITERATION 24] Collision detected between agent 3 and agent 0 dist = 0.3423145591355768 at prediction step 15 and sim time 39
+[ITERATION 24] Collision detected between agent 3 and agent 1 dist = 0.3319008900853232 at prediction step 16 and sim time 40
+[ITERATION 24] Collision detected between agent 3 and agent 2 dist = 0.31737751324484675 at prediction step 13 and sim time 37
+
+[ITERATION 25] Collision detected between agent 0 and agent 1 dist = 0.30611695950983864 at prediction step 13 and sim time 38
+[ITERATION 25] Collision detected between agent 0 and agent 2 dist = 0.3294984994147933 at prediction step 18 and sim time 43
+[ITERATION 25] Collision detected between agent 0 and agent 3 dist = 0.34428861654728227 at prediction step 17 and sim time 42
+[ITERATION 25] Collision detected between agent 1 and agent 0 dist = 0.3261356242807978 at prediction step 14 and sim time 39
+[ITERATION 25] Collision detected between agent 1 and agent 2 dist = 0.34775288194492965 at prediction step 13 and sim time 38
+[ITERATION 25] Collision detected between agent 2 and agent 1 dist = 0.3364790933069785 at prediction step 16 and sim time 41
+[ITERATION 25] Collision detected between agent 2 and agent 3 dist = 0.3313773054020624 at prediction step 15 and sim time 40
+[ITERATION 25] Collision detected between agent 3 and agent 0 dist = 0.3443109239149542 at prediction step 19 and sim time 44
+
+[ITERATION 26] Collision detected between agent 0 and agent 1 dist = 0.34460309485722046 at prediction step 18 and sim time 44
+[ITERATION 26] Collision detected between agent 2 and agent 3 dist = 0.3159789475746886 at prediction step 11 and sim time 37
+[ITERATION 26] Collision detected between agent 3 and agent 0 dist = 0.3302571870028027 at prediction step 10 and sim time 36
+[ITERATION 26] Collision detected between agent 3 and agent 1 dist = 0.3481119050879042 at prediction step 12 and sim time 38
+[ITERATION 26] Collision detected between agent 3 and agent 2 dist = 0.3444237706527183 at prediction step 11 and sim time 37
+
+[ITERATION 27] Collision detected between agent 0 and agent 1 dist = 0.3234863871645011 at prediction step 12 and sim time 39
+[ITERATION 27] Collision detected between agent 0 and agent 3 dist = 0.34521199313493867 at prediction step 10 and sim time 37
+[ITERATION 27] Collision detected between agent 1 and agent 0 dist = 0.33218073966599493 at prediction step 12 and sim time 39
+[ITERATION 27] Collision detected between agent 1 and agent 2 dist = 0.3344074774183293 at prediction step 10 and sim time 37
+[ITERATION 27] Collision detected between agent 1 and agent 3 dist = 0.342208921848791 at prediction step 15 and sim time 42
+[ITERATION 27] Collision detected between agent 2 and agent 1 dist = 0.34124771510473617 at prediction step 12 and sim time 39
+[ITERATION 27] Collision detected between agent 3 and agent 2 dist = 0.3385852847371947 at prediction step 11 and sim time 38
+
+[ITERATION 28] Collision detected between agent 0 and agent 1 dist = 0.34535460870642404 at prediction step 13 and sim time 41
+[ITERATION 28] Collision detected between agent 0 and agent 3 dist = 0.3172404736680796 at prediction step 10 and sim time 38
+[ITERATION 28] Collision detected between agent 1 and agent 0 dist = 0.33634230376908764 at prediction step 14 and sim time 42
+[ITERATION 28] Collision detected between agent 1 and agent 2 dist = 0.3474495834508962 at prediction step 14 and sim time 42
+[ITERATION 28] Collision detected between agent 1 and agent 3 dist = 0.33391107457164315 at prediction step 14 and sim time 42
+[ITERATION 28] Collision detected between agent 2 and agent 1 dist = 0.3476002890911034 at prediction step 21 and sim time 49
+[ITERATION 28] Collision detected between agent 2 and agent 3 dist = 0.3356439230401405 at prediction step 12 and sim time 40
+[ITERATION 28] Collision detected between agent 3 and agent 0 dist = 0.3465019005366109 at prediction step 9 and sim time 37
+[ITERATION 28] Collision detected between agent 3 and agent 2 dist = 0.3461911096686638 at prediction step 18 and sim time 46
+
+[ITERATION 29] Collision detected between agent 1 and agent 2 dist = 0.3364664275314434 at prediction step 12 and sim time 41
+[ITERATION 29] Collision detected between agent 2 and agent 3 dist = 0.34866895135012854 at prediction step 9 and sim time 38
+[ITERATION 29] Collision detected between agent 3 and agent 0 dist = 0.32298045383526597 at prediction step 8 and sim time 37
+[ITERATION 29] Collision detected between agent 3 and agent 2 dist = 0.3487412200893292 at prediction step 9 and sim time 38
+
+[ITERATION 30] Collision detected between agent 0 and agent 1 dist = 0.32244927560641495 at prediction step 8 and sim time 38
+[ITERATION 30] Collision detected between agent 0 and agent 3 dist = 0.3325126037470181 at prediction step 8 and sim time 38
+[ITERATION 30] Collision detected between agent 1 and agent 0 dist = 0.34898492543813703 at prediction step 8 and sim time 38
+[ITERATION 30] Collision detected between agent 1 and agent 2 dist = 0.34686626509170443 at prediction step 10 and sim time 40
+[ITERATION 30] Collision detected between agent 2 and agent 1 dist = 0.34903327858982075 at prediction step 9 and sim time 39
+[ITERATION 30] Collision detected between agent 2 and agent 3 dist = 0.3448959937275499 at prediction step 10 and sim time 40
+[ITERATION 30] Collision detected between agent 3 and agent 0 dist = 0.3472373317052956 at prediction step 8 and sim time 38
+[ITERATION 30] Collision detected between agent 3 and agent 2 dist = 0.3396893783620478 at prediction step 11 and sim time 41
+
+[ITERATION 31] Collision detected between agent 0 and agent 1 dist = 0.33094248464616616 at prediction step 9 and sim time 40
+[ITERATION 31] Collision detected between agent 0 and agent 3 dist = 0.34700519001124785 at prediction step 9 and sim time 40
+[ITERATION 31] Collision detected between agent 1 and agent 0 dist = 0.34572859225577884 at prediction step 10 and sim time 41
+[ITERATION 31] Collision detected between agent 2 and agent 1 dist = 0.3357838472555677 at prediction step 9 and sim time 40
+[ITERATION 31] Collision detected between agent 2 and agent 3 dist = 0.33433683282706655 at prediction step 9 and sim time 40
+[ITERATION 31] Collision detected between agent 3 and agent 0 dist = 0.3495287653116316 at prediction step 8 and sim time 39
+[ITERATION 31] Collision detected between agent 3 and agent 2 dist = 0.3458610764587729 at prediction step 9 and sim time 40
+
+[ITERATION 32] Collision detected between agent 0 and agent 1 dist = 0.3396199209110642 at prediction step 11 and sim time 43
+[ITERATION 32] Collision detected between agent 0 and agent 3 dist = 0.34937914175662277 at prediction step 10 and sim time 42
+[ITERATION 32] Collision detected between agent 1 and agent 2 dist = 0.34376877447477017 at prediction step 8 and sim time 40
+[ITERATION 32] Collision detected between agent 2 and agent 3 dist = 0.34331997333980074 at prediction step 8 and sim time 40
+[ITERATION 32] Collision detected between agent 3 and agent 0 dist = 0.348856281097239 at prediction step 7 and sim time 39
+
+[ITERATION 33] Collision detected between agent 0 and agent 1 dist = 0.34056973841065735 at prediction step 7 and sim time 40
+[ITERATION 33] Collision detected between agent 1 and agent 0 dist = 0.3394074232141435 at prediction step 7 and sim time 40
+[ITERATION 33] Collision detected between agent 1 and agent 2 dist = 0.3396655255432306 at prediction step 6 and sim time 39
+[ITERATION 33] Collision detected between agent 2 and agent 1 dist = 0.34819683558785325 at prediction step 6 and sim time 39
+[ITERATION 33] Collision detected between agent 2 and agent 3 dist = 0.32523745228015727 at prediction step 6 and sim time 39
+[ITERATION 33] Collision detected between agent 3 and agent 0 dist = 0.32786578699957436 at prediction step 5 and sim time 38
+[ITERATION 33] Collision detected between agent 3 and agent 2 dist = 0.32726054496838153 at prediction step 6 and sim time 39
+
+[ITERATION 34] Collision detected between agent 0 and agent 1 dist = 0.34591507872213517 at prediction step 6 and sim time 40
+[ITERATION 34] Collision detected between agent 0 and agent 3 dist = 0.33345416694767965 at prediction step 5 and sim time 39
+[ITERATION 34] Collision detected between agent 1 and agent 0 dist = 0.3477369006802257 at prediction step 6 and sim time 40
+[ITERATION 34] Collision detected between agent 1 and agent 2 dist = 0.33701271132911137 at prediction step 6 and sim time 40
+[ITERATION 34] Collision detected between agent 2 and agent 1 dist = 0.34982370220206177 at prediction step 6 and sim time 40
+[ITERATION 34] Collision detected between agent 2 and agent 3 dist = 0.33469146353276397 at prediction step 5 and sim time 39
+[ITERATION 34] Collision detected between agent 3 and agent 0 dist = 0.33395256357696923 at prediction step 4 and sim time 38
+[ITERATION 34] Collision detected between agent 3 and agent 2 dist = 0.3400128508663897 at prediction step 5 and sim time 39
+
+[ITERATION 35] Collision detected between agent 0 and agent 1 dist = 0.3417471189226647 at prediction step 5 and sim time 40
+[ITERATION 35] Collision detected between agent 0 and agent 3 dist = 0.34235801928042836 at prediction step 4 and sim time 39
+[ITERATION 35] Collision detected between agent 1 and agent 0 dist = 0.33482694114754435 at prediction step 6 and sim time 41
+[ITERATION 35] Collision detected between agent 1 and agent 2 dist = 0.33163590833934725 at prediction step 5 and sim time 40
+[ITERATION 35] Collision detected between agent 2 and agent 1 dist = 0.3455423263455751 at prediction step 5 and sim time 40
+[ITERATION 35] Collision detected between agent 2 and agent 3 dist = 0.3315904552072185 at prediction step 4 and sim time 39
+[ITERATION 35] Collision detected between agent 3 and agent 0 dist = 0.33183873895444377 at prediction step 3 and sim time 38
+[ITERATION 35] Collision detected between agent 3 and agent 2 dist = 0.33681888468937554 at prediction step 4 and sim time 39
+
+[ITERATION 36] Collision detected between agent 0 and agent 1 dist = 0.33660839820464994 at prediction step 4 and sim time 40
+[ITERATION 36] Collision detected between agent 0 and agent 3 dist = 0.3406483171227519 at prediction step 3 and sim time 39
+[ITERATION 36] Collision detected between agent 1 and agent 0 dist = 0.3456819291969854 at prediction step 4 and sim time 40
+[ITERATION 36] Collision detected between agent 1 and agent 2 dist = 0.3496150743588911 at prediction step 3 and sim time 39
+[ITERATION 36] Collision detected between agent 2 and agent 1 dist = 0.33984722157479924 at prediction step 4 and sim time 40
+[ITERATION 36] Collision detected between agent 2 and agent 3 dist = 0.32933288591739696 at prediction step 3 and sim time 39
+[ITERATION 36] Collision detected between agent 3 and agent 0 dist = 0.3309775619568641 at prediction step 2 and sim time 38
+[ITERATION 36] Collision detected between agent 3 and agent 2 dist = 0.3349067286863096 at prediction step 3 and sim time 39
+
+[ITERATION 37] Collision detected between agent 0 and agent 1 dist = 0.3332412476093321 at prediction step 3 and sim time 40
+[ITERATION 37] Collision detected between agent 0 and agent 3 dist = 0.3399641952873919 at prediction step 2 and sim time 39
+[ITERATION 37] Collision detected between agent 1 and agent 0 dist = 0.342374905632544 at prediction step 3 and sim time 40
+[ITERATION 37] Collision detected between agent 1 and agent 2 dist = 0.3474806003367807 at prediction step 2 and sim time 39
+[ITERATION 37] Collision detected between agent 2 and agent 1 dist = 0.33852917828630724 at prediction step 3 and sim time 40
+[ITERATION 37] Collision detected between agent 2 and agent 3 dist = 0.32846829425297974 at prediction step 2 and sim time 39
+[ITERATION 37] Collision detected between agent 3 and agent 0 dist = 0.3309994898838952 at prediction step 1 and sim time 38
+[ITERATION 37] Collision detected between agent 3 and agent 2 dist = 0.33428435419398 at prediction step 2 and sim time 39
+
+[ITERATION 38] Collision detected between agent 0 and agent 1 dist = 0.3328927536015979 at prediction step 2 and sim time 40
+[ITERATION 38] Collision detected between agent 0 and agent 3 dist = 0.3400894751388772 at prediction step 1 and sim time 39
+[ITERATION 38] Collision detected between agent 1 and agent 0 dist = 0.34218353363031195 at prediction step 2 and sim time 40
+[ITERATION 38] Collision detected between agent 1 and agent 2 dist = 0.3475412477706174 at prediction step 1 and sim time 39
+[ITERATION 38] Collision detected between agent 2 and agent 1 dist = 0.33830354226277876 at prediction step 2 and sim time 40
+[ITERATION 38] Collision detected between agent 2 and agent 3 dist = 0.3284521409820323 at prediction step 1 and sim time 39
+[ITERATION 38] Collision detected between agent 3 and agent 0 dist = 0.33144045656745375 at prediction step 0 and sim time 38
+[ITERATION 38] Collision detected between agent 3 and agent 2 dist = 0.33441834142490073 at prediction step 1 and sim time 39
+
+[ITERATION 39] Collision detected between agent 0 and agent 1 dist = 0.3331762256414233 at prediction step 1 and sim time 40
+[ITERATION 39] Collision detected between agent 0 and agent 3 dist = 0.34058044284062267 at prediction step 0 and sim time 39
+[ITERATION 39] Collision detected between agent 1 and agent 0 dist = 0.34254495972987287 at prediction step 1 and sim time 40
+[ITERATION 39] Collision detected between agent 1 and agent 2 dist = 0.34801404843437356 at prediction step 0 and sim time 39
+[ITERATION 39] Collision detected between agent 2 and agent 1 dist = 0.3386765642852485 at prediction step 1 and sim time 40
+[ITERATION 39] Collision detected between agent 2 and agent 3 dist = 0.3288236668481523 at prediction step 0 and sim time 39
+[ITERATION 39] Collision detected between agent 3 and agent 0 dist = 0.30970669448561705 at prediction step 0 and sim time 39
+[ITERATION 39] Collision detected between agent 3 and agent 2 dist = 0.33485327393709846 at prediction step 0 and sim time 39
+
+[ITERATION 40] Collision detected between agent 0 and agent 1 dist = 0.33369815133942526 at prediction step 0 and sim time 40
+[ITERATION 40] Collision detected between agent 0 and agent 3 dist = 0.322486214325739 at prediction step 0 and sim time 40
+[ITERATION 40] Collision detected between agent 1 and agent 0 dist = 0.3430954368371384 at prediction step 0 and sim time 40
+[ITERATION 40] Collision detected between agent 1 and agent 2 dist = 0.3262568795059554 at prediction step 0 and sim time 40
+[ITERATION 40] Collision detected between agent 2 and agent 1 dist = 0.3392654114483094 at prediction step 0 and sim time 40
+[ITERATION 40] Collision detected between agent 2 and agent 3 dist = 0.3009634272272374 at prediction step 0 and sim time 40
+[ITERATION 40] Collision detected between agent 3 and agent 0 dist = 0.2930759342704868 at prediction step 0 and sim time 40
+[ITERATION 40] Collision detected between agent 3 and agent 2 dist = 0.3102025039862318 at prediction step 0 and sim time 40
+
+[ITERATION 41] Collision detected between agent 0 and agent 1 dist = 0.3119060795086198 at prediction step 0 and sim time 41
+[ITERATION 41] Collision detected between agent 0 and agent 3 dist = 0.3097563424470746 at prediction step 0 and sim time 41
+[ITERATION 41] Collision detected between agent 1 and agent 0 dist = 0.3245512769176167 at prediction step 0 and sim time 41
+[ITERATION 41] Collision detected between agent 1 and agent 2 dist = 0.3090448494004009 at prediction step 0 and sim time 41
+[ITERATION 41] Collision detected between agent 2 and agent 1 dist = 0.32544123817025244 at prediction step 0 and sim time 41
+[ITERATION 41] Collision detected between agent 2 and agent 3 dist = 0.27741451390490207 at prediction step 0 and sim time 41
+[ITERATION 41] Collision detected between agent 3 and agent 0 dist = 0.2824742054211876 at prediction step 0 and sim time 41
+[ITERATION 41] Collision detected between agent 3 and agent 2 dist = 0.29042728480079444 at prediction step 0 and sim time 41
+
+[ITERATION 42] Collision detected between agent 0 and agent 1 dist = 0.29506966369084264 at prediction step 0 and sim time 42
+[ITERATION 42] Collision detected between agent 0 and agent 3 dist = 0.30305894384479193 at prediction step 0 and sim time 42
+[ITERATION 42] Collision detected between agent 1 and agent 0 dist = 0.31127399161520836 at prediction step 0 and sim time 42
+[ITERATION 42] Collision detected between agent 1 and agent 2 dist = 0.2972590316562511 at prediction step 0 and sim time 42
+[ITERATION 42] Collision detected between agent 2 and agent 1 dist = 0.3171117124815922 at prediction step 0 and sim time 42
+[ITERATION 42] Collision detected between agent 2 and agent 3 dist = 0.2595216890701822 at prediction step 0 and sim time 42
+[ITERATION 42] Collision detected between agent 3 and agent 0 dist = 0.2786301179122297 at prediction step 0 and sim time 42
+[ITERATION 42] Collision detected between agent 3 and agent 2 dist = 0.27670693238909433 at prediction step 0 and sim time 42
+
+[ITERATION 43] Collision detected between agent 0 and agent 1 dist = 0.2842187869669654 at prediction step 0 and sim time 43
+[ITERATION 43] Collision detected between agent 0 and agent 3 dist = 0.30278701623395415 at prediction step 0 and sim time 43
+[ITERATION 43] Collision detected between agent 1 and agent 0 dist = 0.304033646885854 at prediction step 0 and sim time 43
+[ITERATION 43] Collision detected between agent 1 and agent 2 dist = 0.2916594118704657 at prediction step 0 and sim time 43
+[ITERATION 43] Collision detected between agent 2 and agent 1 dist = 0.3147615816233478 at prediction step 0 and sim time 43
+[ITERATION 43] Collision detected between agent 2 and agent 3 dist = 0.2486246787296957 at prediction step 0 and sim time 43
+[ITERATION 43] Collision detected between agent 3 and agent 0 dist = 0.28179088140264114 at prediction step 0 and sim time 43
+[ITERATION 43] Collision detected between agent 3 and agent 2 dist = 0.270006828182857 at prediction step 0 and sim time 43
+
+[ITERATION 44] Collision detected between agent 0 and agent 1 dist = 0.2801093154700102 at prediction step 0 and sim time 44
+[ITERATION 44] Collision detected between agent 0 and agent 3 dist = 0.3088934947129139 at prediction step 0 and sim time 44
+[ITERATION 44] Collision detected between agent 1 and agent 0 dist = 0.3032664515181899 at prediction step 0 and sim time 44
+[ITERATION 44] Collision detected between agent 1 and agent 2 dist = 0.292625658894817 at prediction step 0 and sim time 44
+[ITERATION 44] Collision detected between agent 2 and agent 1 dist = 0.31850604830194096 at prediction step 0 and sim time 44
+[ITERATION 44] Collision detected between agent 2 and agent 3 dist = 0.2456748943185515 at prediction step 0 and sim time 44
+[ITERATION 44] Collision detected between agent 3 and agent 0 dist = 0.2916421410892401 at prediction step 0 and sim time 44
+[ITERATION 44] Collision detected between agent 3 and agent 2 dist = 0.2708088996984397 at prediction step 0 and sim time 44
+
+[ITERATION 45] Collision detected between agent 0 and agent 1 dist = 0.2830171151982216 at prediction step 0 and sim time 45
+[ITERATION 45] Collision detected between agent 0 and agent 3 dist = 0.32090649127837273 at prediction step 0 and sim time 45
+[ITERATION 45] Collision detected between agent 1 and agent 0 dist = 0.3089619916920703 at prediction step 0 and sim time 45
+[ITERATION 45] Collision detected between agent 1 and agent 2 dist = 0.3000533600334961 at prediction step 0 and sim time 45
+[ITERATION 45] Collision detected between agent 2 and agent 1 dist = 0.32806712343620414 at prediction step 0 and sim time 45
+[ITERATION 45] Collision detected between agent 2 and agent 3 dist = 0.25088829645976496 at prediction step 0 and sim time 45
+[ITERATION 45] Collision detected between agent 3 and agent 0 dist = 0.30741215417497897 at prediction step 0 and sim time 45
+[ITERATION 45] Collision detected between agent 3 and agent 2 dist = 0.2789447707908998 at prediction step 0 and sim time 45
+
+[ITERATION 46] Collision detected between agent 0 and agent 1 dist = 0.2926528725852286 at prediction step 0 and sim time 46
+[ITERATION 46] Collision detected between agent 0 and agent 3 dist = 0.33805700866527344 at prediction step 0 and sim time 46
+[ITERATION 46] Collision detected between agent 1 and agent 0 dist = 0.32066906756039615 at prediction step 0 and sim time 46
+[ITERATION 46] Collision detected between agent 1 and agent 2 dist = 0.3133912523370003 at prediction step 0 and sim time 46
+[ITERATION 46] Collision detected between agent 2 and agent 1 dist = 0.3428491020621998 at prediction step 0 and sim time 46
+[ITERATION 46] Collision detected between agent 2 and agent 3 dist = 0.2636542038431484 at prediction step 0 and sim time 46
+[ITERATION 46] Collision detected between agent 3 and agent 0 dist = 0.328090320852992 at prediction step 0 and sim time 46
+[ITERATION 46] Collision detected between agent 3 and agent 2 dist = 0.2936557122027049 at prediction step 0 and sim time 46
+
+[ITERATION 47] Collision detected between agent 0 and agent 1 dist = 0.30826001530151265 at prediction step 0 and sim time 47
+[ITERATION 47] Collision detected between agent 1 and agent 0 dist = 0.3376212041510891 at prediction step 0 and sim time 47
+[ITERATION 47] Collision detected between agent 1 and agent 2 dist = 0.3317979155684048 at prediction step 0 and sim time 47
+[ITERATION 47] Collision detected between agent 2 and agent 3 dist = 0.2827827689810234 at prediction step 0 and sim time 47
+[ITERATION 47] Collision detected between agent 3 and agent 2 dist = 0.3138404153456524 at prediction step 0 and sim time 47
+
+[ITERATION 48] Collision detected between agent 0 and agent 1 dist = 0.32883305690609943 at prediction step 0 and sim time 48
+[ITERATION 48] Collision detected between agent 2 and agent 3 dist = 0.30689474362454733 at prediction step 0 and sim time 48
+[ITERATION 48] Collision detected between agent 3 and agent 2 dist = 0.3383250289216568 at prediction step 0 and sim time 48
+
+[ITERATION 49] Collision detected between agent 2 and agent 3 dist = 0.33470859799839875 at prediction step 0 and sim time 49
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

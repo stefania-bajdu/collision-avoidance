@@ -44,7 +44,7 @@ def plot_positions(t, state_xi, pos_ref, id=0, t_id=0):
 def plot_velocities(t, state_xi, v_ref, id=0):
     fig, axs = plt.subplots(2, 1, figsize=(12, 8), sharex=True)
 
-    labels = ['x (m)', 'y (m)']
+    labels = ['vx (m/s)', 'vy (m/s)']
     for i in range(2):
         axs[i].plot(t, state_xi[i + 2, :], label='sim')
         axs[i].plot(t, v_ref[:, i], '--', label='ref')
@@ -54,6 +54,20 @@ def plot_velocities(t, state_xi, v_ref, id=0):
 
     axs[-1].set_xlabel('Time (s)')
     fig.suptitle(f'Drone {id+1} Velocities', fontsize=14)
+
+
+def plot_virtual_input(t, v, id=0):
+    fig, axs = plt.subplots(2, 1, figsize=(12, 8), sharex=True)
+
+    labels = ['ax (m/s^2)', 'ay (m/s^2)']
+    for i in range(2):
+        axs[i].plot(t, v[i, :], label='sim')
+        axs[i].legend()
+        axs[i].set_ylabel(labels[i])
+        axs[i].grid(True)
+
+    axs[-1].set_xlabel('Time (s)')
+    fig.suptitle(f'Drone {id+1} Virtual Input', fontsize=14)
 
 
 def plot_traj_animated(t, state_xi, cluster_refs):
@@ -104,8 +118,7 @@ def plot_traj_animated(t, state_xi, cluster_refs):
         start_idx = max(0, t_idx - trace_length + 1)
 
         for i in range(Na):
-            trajectory_lines[i].set_data(state_xi[i][0, start_idx:t_idx+1],
-                                         state_xi[i][1, start_idx:t_idx+1])
+            trajectory_lines[i].set_data(state_xi[i][0, start_idx:t_idx+1], state_xi[i][1, start_idx:t_idx+1])
             scatter_points[i].set_offsets([state_xi[i][0, t_idx], state_xi[i][1, t_idx]])
 
         for i in range(num_targets):

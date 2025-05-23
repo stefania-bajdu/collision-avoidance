@@ -53,24 +53,24 @@ class IMPC:
         self.m = 28e-3
         self.I_BF = np.diag([1.4, 1.4, 2.2]) * 1e-5
 
-        self.Npred = 15
+        self.Npred = 20
 
         self.A = np.block([[np.zeros((3, 3)), np.eye(3)], [np.zeros((3, 6))]])
         self.B = np.block([[np.zeros((3, 3))], [np.eye(3)]])
         self.A_d = np.eye(6) + self.Ts * self.A
         self.B_d = self.B * self.Ts
 
-        self.Q = np.diag([1, 1, 1, 1, 1, 1])
-        self.R = np.diag([2.5, 2.5, 2.5])
+        self.Q = np.diag([1, 1, 1, 10, 10, 10])
+        self.R = np.diag([5, 5, 5])
 
         self.r_min = 0.35
-        self.THETA = 2.5 * np.eye(3)
+        self.THETA = 1 * np.eye(3)
         self.THETA_1 = np.linalg.inv(self.THETA)
         self.THETA_2 = self.THETA_1 @ self.THETA_1
 
     def initialize_states(self, pos_init):
         self.state_xi = {i: np.zeros((6, len(self.t))) for i in range(self.Na)}
-        self.predicted_evolution = {i: np.zeros((6, self.Npred)) for i in range(self.Na)}
+        self.predicted_evolution = {i: np.zeros((6, self.Npred + 1)) for i in range(self.Na)}
         self.state_eta = {i: np.zeros((6, len(self.t))) for i in range(self.Na)}
         self.angle_refs = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
         self.thrusts = {i: np.zeros(len(self.t)) for i in range(self.Na)}
@@ -82,6 +82,7 @@ class IMPC:
         self.acc = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
         self.ang_acc = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
         self.sigma = {i: np.zeros((3, len(self.t))) for i in range(self.Na)}
+        self.computations_times = []
 
         vel_init = np.zeros(3)
         for i in range(self.Na):
@@ -122,7 +123,6 @@ class IMPC:
         n, du = 6, 3
 
         self.spline_degree = 3
-        # self.n_ctrl_pts = self.Npred + self.spline_degree - 1
         self.n_ctrl_pts = 5
         self.knot_vec = knot_vector(self.spline_degree, self.n_ctrl_pts, [0, self.Ts * self.Npred])
         self.basis_funcs = b_spline_basis_functions(self.n_ctrl_pts, self.spline_degree, self.knot_vec)
@@ -131,9 +131,7 @@ class IMPC:
         self.P_history = []
 
         solver = cas.Opti()
-        x = solver.variable(n, self.Npred)
         P_i = solver.variable(3, self.n_ctrl_pts)
-        v = solver.variable(du, self.Npred)
         phi_i = solver.variable(self.Na, 1)
 
         xinit = solver.parameter(n, 1)
@@ -156,8 +154,7 @@ class IMPC:
         b1 = np.array([f(0.0) for f in self.basis_funcs[1]]).reshape(-1, 1)
         pos = cas.mtimes(P_i, b0)
         vel = cas.mtimes(cas.mtimes(P_i, self.conv_M[0]), b1)
-        x[:, 0] = cas.vertcat(pos, vel)
-        solver.subject_to(x[:, 0] == xinit)
+        solver.subject_to(cas.vertcat(pos, vel) == xinit)
 
         objective = 0
 
@@ -173,7 +170,12 @@ class IMPC:
 
             pos_error = pos - xref_param[0:3, k]
             vel_error = vel - xref_param[3:6, k]
-            acc_error = acc
+
+            if k == 0:
+                acc_error = acc
+            else:
+                b2_prev = np.array([f(tk - self.Ts) for f in self.basis_funcs[2]]).reshape(-1, 1)
+                acc_error = acc - cas.mtimes(cas.mtimes(P_i, self.conv_M[1]), b2_prev)
 
             objective += cas.mtimes([pos_error.T, self.Q[0:3, 0:3], pos_error])
             objective += cas.mtimes([vel_error.T, self.Q[3:6, 3:6], vel_error])
@@ -190,8 +192,6 @@ class IMPC:
         opts = {"ipopt.print_level": 0, "print_time": False, "ipopt.sb": "yes"}
         solver.solver('ipopt', opts)
 
-        self.x = x
-        self.v = v
         self.P_i = P_i
         self.solver = solver
         self.xinit = xinit
@@ -218,6 +218,8 @@ class IMPC:
                 self.compute_control(i, id=id)
                 self.update_states(i, id=id)
             # file.write(f"[TIME] {time.time() - tic}\n")
+            self.computations_times.append(time.time() - tic)
+            file.write("\n")
 
         elapsed_time = time.time() - start_time
 
@@ -226,6 +228,8 @@ class IMPC:
         print(f"One control loop lasts {elapsed_time / len(self.t)} and is {comment} than the sample time {self.Ts}.")
 
     def detect_collision(self, i, id):
+        """ Return the set of neighbours W_il that has all the agents i will collide with in the future 
+            and the dicitonary of the predicted collision step with each one. """
         collision_steps = {j: -1 for j in range(self.Na)}
         W_il = []
         for j in range(self.Na):
@@ -243,21 +247,19 @@ class IMPC:
         return W_il, collision_steps
 
     def compute_control(self, i, id=0):
-
         Acoll = np.zeros((self.Na, 3))
         bcoll = np.zeros((self.Na, 1))
         dij_colls = np.zeros((self.Na, self.Na))
         collision_steps = {j: -1 for j in range(self.Na)}
 
-        eta1, eta2 = 0, 1000
+        eta1, eta2 = 50, 100
 
         if i >= 1:
             W_il, collision_steps = self.detect_collision(i, id)
 
             for j in W_il:
                 diff = self.predicted_evolution[id][:3, collision_steps[j]] - self.predicted_evolution[j][:3, collision_steps[j]]
-                dij_l = self.THETA_1 * diff
-                dij_l = np.linalg.norm(dij_l)
+                dij_l = np.linalg.norm(self.THETA_1 * diff)
                 dij_colls[j, j] = dij_l
                 A = -(self.THETA_2 @ diff)
                 bcoll[j] = A @ self.predicted_evolution[id][:3, collision_steps[j]] - (self.r_min - dij_l) * dij_l / 2
@@ -353,6 +355,20 @@ class IMPC:
         plt.title("Optimized B-spline trajectory")
         plt.show()
 
+    def plot_computation_times(self):
+        avg = np.mean(self.computations_times)
+        timesteps = range(0, len(self.computations_times))
+        plt.figure(figsize=(10, 5))
+        plt.plot(timesteps, self.computations_times, marker='o', color='tab:blue', label="", markersize=4, linewidth=1, alpha=1)
+        plt.axhline(avg, color='magenta', linestyle='--', linewidth=2, label=f"Avg = {avg:.3f} s")
+
+        plt.xlabel("Time Index n")
+        plt.ylabel("Computation Time (s)")
+        plt.title("MPC Solve Time per Step")
+        plt.grid(True)
+        plt.legend(loc='upper right')
+        plt.tight_layout()
+
 
 if __name__ == "__main__":
 
@@ -365,11 +381,11 @@ if __name__ == "__main__":
     controller = IMPC(pos_init)
     controller.run()
 
-    plot_positions(controller.t, controller.state_xi[0], controller.pos_ref[0], id=0)
-    plot_velocities(controller.t, controller.state_xi[0], controller.pos_ref[0][:, 3:6], id=0)
+    # plot_positions(controller.t, controller.state_xi[0], controller.pos_ref[0], id=0)
+    # plot_velocities(controller.t, controller.state_xi[0], controller.pos_ref[0][:, 3:6], id=0)
 
-    plot_positions(controller.t, controller.state_xi[1], controller.pos_ref[1], id=1)
-    plot_velocities(controller.t, controller.state_xi[1], controller.pos_ref[1][:, 3:6], id=1)
+    # plot_positions(controller.t, controller.state_xi[1], controller.pos_ref[1], id=1)
+    # plot_velocities(controller.t, controller.state_xi[1], controller.pos_ref[1][:, 3:6], id=1)
 
     plot_all_agent_distances(controller.t, controller.state_xi, d0=controller.r_min)
 
